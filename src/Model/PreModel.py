@@ -402,11 +402,14 @@ class PreModel_25Hz_coding(PreModel):
         self.train1 = Train(name_base='列车1', posi=0, parameter=parameter)
         self.train2 = Train(name_base='列车2', posi=0, parameter=parameter)
 
+        # todo: 分路电阻
+        # self.train2['分路电阻1'].z = 1000000
+
         # 轨道电路初始化
         send_level = para['send_level']
         m_frqs = generate_frqs(Freq(para['freq_主']), 3)
 
-        sg3 = SectionGroup(name_base='地面', posi=para['offset'], m_num=1,
+        sg3 = SectionGroup(name_base='地面', posi=para['offset_zhu'], m_num=1,
                            m_frqs=m_frqs,
                            m_lens=[para['主串区段长度']]*3,
                            j_lens=[0]*4,
@@ -423,7 +426,7 @@ class PreModel_25Hz_coding(PreModel):
             sg3['区段1']['右调谐单元'].set_power_voltage(flg)
 
         m_frqs = generate_frqs(Freq(para['freq_被']), 3)
-        sg4 = SectionGroup(name_base='地面', posi=0, m_num=1,
+        sg4 = SectionGroup(name_base='地面', posi=para['offset_bei'], m_num=1,
                            m_frqs=m_frqs,
                            m_lens=[para['被串区段长度']]*3,
                            j_lens=[0]*4,

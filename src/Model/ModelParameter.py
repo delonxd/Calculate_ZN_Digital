@@ -492,6 +492,8 @@ class ModelParameter:
             2600: (1130, 0.141, None)}
 
         n_WGL_25Hz_Coding = 4
+        # todo: 扼流变比
+        # n_WGL_25Hz_Coding = 7
         parameter['n_WGL_25Hz_Coding'] = {
             1700: n_WGL_25Hz_Coding,
             2000: n_WGL_25Hz_Coding,

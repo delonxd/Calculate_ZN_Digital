@@ -393,12 +393,13 @@ class ZPW2000A_ZN_25Hz_Coding(TCSR):
             n=para['n_WGL_25Hz_Coding'],
             c2=para['C2_WGL_25Hz_Coding'],
             l2=para['L2_WGL_25Hz_Coding']))
-
-        self.add_child('6扼流', TcsrEL25HzCoding(
-            self, '6扼流',
-            zs=para['zs_EL_25Hz_Coding'],
-            zm=para['zm_EL_25Hz_Coding'],
-            n=para['n_EL_25Hz_Coding']))
+        
+        # todo: 去掉扼流
+        # self.add_child('6扼流', TcsrEL25HzCoding(
+        #     self, '6扼流',
+        #     zs=para['zs_EL_25Hz_Coding'],
+        #     zm=para['zm_EL_25Hz_Coding'],
+        #     n=para['n_EL_25Hz_Coding']))
 
         # self.add_child('3FT1u电阻', TPortZSeries(self, '3FT1u阻抗', para['z_FT1u']))
         # self.add_child('4FT1u开路电阻', TPortZSeries(self, '3FT1u阻抗', para['z_FT1u']))

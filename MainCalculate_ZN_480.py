@@ -106,14 +106,6 @@ def main_cal(path1, path2, path3):
 
     clist1 = clist2 = clist3 = clist4 = clist5 = clist6 = [[]]
 
-    clist1 = [
-        [1700, 1700], [1700, 2300], [2300, 2300], [2300, 1700],
-        [2000, 2000], [2000, 2600], [2600, 2600], [2600, 2000],
-    ]
-    # clist1 = [[2600, 2000]]
-
-    clist2 = get_section_length()
-
     print('总行数：%s' % str(len(clist2)))
 
     clist = list(itertools.product(
@@ -174,23 +166,23 @@ def main_cal(path1, path2, path3):
         row_data.config_sec_name('', '', pd_read_flag=flag)
 
         # row_data.config_sec_length(cv2.lens_zhu[0], cv2.lens_bei[cv2.index_bei], pd_read_flag=flag)
-        row_data.config_sec_length(500, 500, pd_read_flag=flag)
+        row_data.config_sec_length(844, 844, pd_read_flag=flag)
         row_data.config_offset(0, pd_read_flag=False)
         # row_data.config_offset(0, pd_read_flag=True)
 
-        row_data.config_mutual_coeff(20, pd_read_flag=flag)
+        row_data.config_mutual_coeff(15, pd_read_flag=flag)
         # row_data.config_freq(cv1[0], cv1[1], pd_read_flag=flag)
-        row_data.config_freq(1700, 1700, pd_read_flag=flag)
+        row_data.config_freq(2300, 2300, pd_read_flag=flag)
         # row_data.config_freq(cv1, cv2, pd_read_flag=flag)
         # row_data.config_c_num('auto', 'auto', pd_read_flag=flag)
-        row_data.config_c_num([6], [6], pd_read_flag=flag)
+        row_data.config_c_num(10, 10, pd_read_flag=flag)
         row_data.config_c_posi(None, None, pd_read_flag=False)
         # if temp_temp == 4:
         #     row_data.config_c_posi(None, [514/2], pd_read_flag=False)
         row_data.config_c2TB(False)
 
         # row_data.config_c_value(25, 25, pd_read_flag=flag)
-        row_data.config_c_value(25, 25, pd_read_flag=flag)
+        row_data.config_c_value(60, 80, pd_read_flag=flag)
 
         # row_data.config_c_inhibitor(pd_read_flag=flag)
 
@@ -225,10 +217,10 @@ def main_cal(path1, path2, path3):
         #     row_data.config_pop([2,4,5], [], pd_read_flag=False)
 
         row_data.config_cable_para()
-        row_data.config_cable_length(10, 10, pd_read_flag=flag, respectively=True)
+        row_data.config_cable_length(7.5, 7.5, pd_read_flag=flag, respectively=True)
         # row_data.config_r_sht(1e-7, 1e-7, pd_read_flag=flag, respectively=True)
         row_data.config_r_sht(1e-7, 1e-7, pd_read_flag=False, respectively=True)
-        row_data.config_power(2, '最大', pd_read_flag=flag)
+        row_data.config_power(1, '最大', pd_read_flag=flag)
 
         row_data.config_sp_posi()
         row_data.config_train_signal()
@@ -275,6 +267,17 @@ def main_cal(path1, path2, path3):
         # 分路计算
 
         md = PreModel_25Hz_coding(parameter=para)
+
+        # todo: 电容损坏
+        v_error = 16 * 1e-6
+        c_error = ImpedanceMultiFreq()
+        c_error.rlc_s = {
+            1700: [10e-3, None, v_error],
+            2000: [10e-3, None, v_error],
+            2300: [10e-3, None, v_error],
+            2600: [10e-3, None, v_error]}
+        # md.section_group4['区段1']['C7'].z = c_error
+
         md.add_train()
         # md.add_train_bei()
 
@@ -292,7 +295,9 @@ def main_cal(path1, path2, path3):
             md.train1.posi_rlt = posi_bei
             md.train1.set_posi_abs(0)
 
+            # todo: 主串分路位置
             posi_zhu = posi_bei
+            # posi_zhu = 546
             md.train2.posi_rlt = posi_zhu
             md.train2.set_posi_abs(0)
 

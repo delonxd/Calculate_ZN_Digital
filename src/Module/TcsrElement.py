@@ -255,7 +255,6 @@ class TcsrWGL25HzCoding(ElePack):
         self.add_child('7电感L2', TPortZParallel(self, '7电感L2', l2))
 
 
-
 # 电码化扼流变压器
 class TcsrEL25HzCoding(ElePack):
     def __init__(self, parent_ins, name_base, zs, zm, n):
@@ -264,3 +263,27 @@ class TcsrEL25HzCoding(ElePack):
         self.add_child('1短路阻抗', TPortZSeries(self, '1短路阻抗', zs))
         self.add_child('2开路阻抗', TPortZParallel(self, '2开路阻抗', zm))
         self.add_child('3变压器', TPortCircuitN(self, '3变压器', n))
+
+
+# 480室内隔离盒
+class TcsrNGL480Coding(ElePack):
+    def __init__(self, parent_ins, name_base, lc1, c1, lc2):
+        super().__init__(parent_ins, name_base)
+        self.flag_ele_list = True
+        self.add_child('1阻抗', TPortZParallel(self, '1阻抗', lc1))
+        self.add_child('2电容C1', TPortZSeries(self, '2电容C1', c1))
+        self.add_child('3阻抗', TPortZParallel(self, '1阻抗', lc2))
+
+
+# 480室外隔离盒
+class TcsrWGL480Coding(ElePack):
+    def __init__(self, parent_ins, name_base, l1, c1, zs, zm, n, c2, l2):
+        super().__init__(parent_ins, name_base)
+        self.flag_ele_list = True
+        self.add_child('1电感L1', TPortZParallel(self, '1电感L1', l1))
+        self.add_child('2电容C1', TPortZSeries(self, '2电容C1', c1))
+        self.add_child('3短路阻抗', TPortZSeries(self, '3短路阻抗', zs))
+        self.add_child('4开路阻抗', TPortZParallel(self, '4开路阻抗', zm))
+        self.add_child('5变压器', TPortCircuitN(self, '5变压器', n))
+        self.add_child('6电容C2', TPortZSeries(self, '6电容C2', c2))
+        self.add_child('7电感L2', TPortZParallel(self, '7电感L2', l2))

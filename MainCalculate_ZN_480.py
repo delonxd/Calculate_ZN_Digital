@@ -106,10 +106,14 @@ def main_cal(path1, path2, path3):
 
     clist1 = clist2 = clist3 = clist4 = clist5 = clist6 = [[]]
 
-    print('总行数：%s' % str(len(clist2)))
+    clist1 = [1e-7, 0.15]
+    clist2 = [10000, 1]
+    clist3 = [100, 300]
 
     clist = list(itertools.product(
         clist1, clist2, clist3, clist4, clist5, clist6))
+
+    print('总行数：%s' % str(len(clist)))
 
     #################################################################################
 
@@ -122,7 +126,8 @@ def main_cal(path1, path2, path3):
     # pd_read_flag = True
     pd_read_flag = False
 
-    for _ in range(1):
+    # for _ in range(1):
+    for tup in clist:
 
         print()
         # print(cv2.lens_zhu, cv2.lens_bei, cv2.offset, cv2.l_pos, cv2.index_bei)
@@ -172,7 +177,7 @@ def main_cal(path1, path2, path3):
 
         row_data.config_mutual_coeff(15, pd_read_flag=flag)
         # row_data.config_freq(cv1[0], cv1[1], pd_read_flag=flag)
-        row_data.config_freq(2300, 2300, pd_read_flag=flag)
+        row_data.config_freq(2300, 1700, pd_read_flag=flag)
         # row_data.config_freq(cv1, cv2, pd_read_flag=flag)
         # row_data.config_c_num('auto', 'auto', pd_read_flag=flag)
         row_data.config_c_num(10, 10, pd_read_flag=flag)
@@ -194,7 +199,7 @@ def main_cal(path1, path2, path3):
         row_data.config_c_fault_mode(['无'], ['无'], pd_read_flag=False)
         row_data.config_c_fault_num([], [], pd_read_flag=False)
 
-        row_data.config_rd(10000, 10000, pd_read_flag=flag, respectively=True)
+        row_data.config_rd(tup[1], tup[1], pd_read_flag=flag, respectively=True)
 
         # row_data.config_trk_z(pd_read_flag=flag, respectively=False)
         # row_data.config_trk_z(pd_read_flag=flag, respectively=True)
@@ -217,9 +222,9 @@ def main_cal(path1, path2, path3):
         #     row_data.config_pop([2,4,5], [], pd_read_flag=False)
 
         row_data.config_cable_para()
-        row_data.config_cable_length(7.5, 7.5, pd_read_flag=flag, respectively=True)
+        row_data.config_cable_length(0.5, 0.5, pd_read_flag=flag, respectively=True)
         # row_data.config_r_sht(1e-7, 1e-7, pd_read_flag=flag, respectively=True)
-        row_data.config_r_sht(1e-7, 1e-7, pd_read_flag=False, respectively=True)
+        row_data.config_r_sht(tup[0], tup[0], pd_read_flag=False, respectively=True)
         row_data.config_power(1, '最大', pd_read_flag=flag)
 
         row_data.config_sp_posi()
@@ -234,7 +239,15 @@ def main_cal(path1, path2, path3):
         data2excel.add_new_row()
 
         # 电码化
-        row_data.config_25Hz_coding_device(pd_read_flag=False)
+
+        n_FT1u = 40
+        r_adj_zhu = 0
+        r_adj_bei = tup[2]
+        row_data.config_25Hz_coding_device(n_FT1u=n_FT1u, r_adj=r_adj_zhu, pd_read_flag=False)
+
+        data['FT1-U输出电压(V)'] = n_FT1u
+        data['主串调整电阻(Ω)'] = r_adj_zhu
+        data['被串调整电阻(Ω)'] = r_adj_bei
 
         len_posi = 0
 
@@ -267,6 +280,15 @@ def main_cal(path1, path2, path3):
         # 分路计算
 
         md = PreModel_25Hz_coding(parameter=para)
+        z_adjust_bei = ImpedanceMultiFreq()
+        z_adjust_bei.rlc_s = {
+            1700: [r_adj_bei, None, None],
+            2000: [r_adj_bei, None, None],
+            2300: [r_adj_bei, None, None],
+            2600: [r_adj_bei, None, None]}
+
+        md.lg['线路4']['地面']['区段1']['右调谐单元']['3调整电阻'].z = z_adjust_bei
+
 
         # todo: 电容损坏
         v_error = 16 * 1e-6
@@ -276,6 +298,12 @@ def main_cal(path1, path2, path3):
             2000: [10e-3, None, v_error],
             2300: [10e-3, None, v_error],
             2600: [10e-3, None, v_error]}
+
+        # c_error.rlc_s = {
+        #     1700: [1e10, None, None],
+        #     2000: [1e10, None, None],
+        #     2300: [1e10, None, None],
+        #     2600: [1e10, None, None]}
         # md.section_group4['区段1']['C7'].z = c_error
 
         md.add_train()
@@ -296,8 +324,8 @@ def main_cal(path1, path2, path3):
             md.train1.set_posi_abs(0)
 
             # todo: 主串分路位置
-            posi_zhu = posi_bei
-            # posi_zhu = 546
+            # posi_zhu = posi_bei
+            posi_zhu = 530
             md.train2.posi_rlt = posi_zhu
             md.train2.set_posi_abs(0)
 

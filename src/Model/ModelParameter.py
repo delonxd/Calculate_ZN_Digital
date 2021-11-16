@@ -492,8 +492,6 @@ class ModelParameter:
             2600: (1130, 0.141, None)}
 
         n_WGL_25Hz_Coding = 4
-        # todo: 扼流变比
-        # n_WGL_25Hz_Coding = 7
         parameter['n_WGL_25Hz_Coding'] = {
             1700: n_WGL_25Hz_Coding,
             2000: n_WGL_25Hz_Coding,
@@ -547,6 +545,70 @@ class ModelParameter:
             2600: 88.43e-6}
 
 ########################################################################################################################
+
+        # 480隔离设备
+        parameter['480_NGL_LC1'] = ImpedanceMultiFreq()
+        parameter['480_NGL_LC1'].rlc_s = {
+            1700: (None, 1.013, 10e-6),
+            2000: (None, 1.013, 10e-6),
+            2300: (None, 1.013, 10e-6),
+            2600: (None, 1.013, 10e-6)}
+
+        parameter['480_NGL_C1'] = ImpedanceMultiFreq()
+        parameter['480_NGL_C1'].rlc_s = {
+            1700: (None, None, 1e-6),
+            2000: (None, None, 1e-6),
+            2300: (None, None, 1e-6),
+            2600: (None, None, 1e-6)}
+
+        parameter['480_NGL_LC2'] = ImpedanceMultiFreq()
+        parameter['480_NGL_LC2'].rlc_s = {
+            1700: (None, 1.01, 2.5e-6),
+            2000: (None, 1.01, 2.5e-6),
+            2300: (None, 1.01, 2.5e-6),
+            2600: (None, 1.01, 2.5e-6)}
+
+        parameter['480_WGL_L1'] = ImpedanceMultiFreq()
+        parameter['480_WGL_L1'].rlc_s = {
+            1700: (None, 1, None),
+            2000: (None, 1, None),
+            2300: (None, 1, None),
+            2600: (None, 1, None)}
+
+        parameter['480_WGL_C1'] = ImpedanceMultiFreq()
+        parameter['480_WGL_C1'].rlc_s = {
+            1700: (None, None, 1e-6),
+            2000: (None, None, 1e-6),
+            2300: (None, None, 1e-6),
+            2600: (None, None, 1e-6)}
+
+        parameter['480_WGL_C2'] = ImpedanceMultiFreq()
+        parameter['480_WGL_C2'].rlc_s = {
+            1700: (None, None, 20e-6),
+            2000: (None, None, 20e-6),
+            2300: (None, None, 20e-6),
+            2600: (None, None, 20e-6)}
+
+        parameter['480_WGL_L2'] = ImpedanceMultiFreq()
+        parameter['480_WGL_L2'].rlc_s = {
+            1700: (None, 5e-3, None),
+            2000: (None, 5e-3, None),
+            2300: (None, 5e-3, None),
+            2600: (None, 5e-3, None)}
+
+        n_480_WGL = 7
+        parameter['480_WGL_n'] = {
+            1700: n_480_WGL,
+            2000: n_480_WGL,
+            2300: n_480_WGL,
+            2600: n_480_WGL}
+
+        parameter['480_R_adjust'] = ImpedanceMultiFreq()
+        parameter['480_R_adjust'].rlc_s = {
+            1700: [100, None, None],
+            2000: [100, None, None],
+            2300: [100, None, None],
+            2600: [100, None, None]}
 
         self.parameter = parameter
 

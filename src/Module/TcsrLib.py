@@ -365,17 +365,27 @@ class ZPW2000A_ZN_25Hz_Coding(TCSR):
                 self, '1开关断开',
                 current=0))
 
+        # self.add_child('3调整电阻', TPortZSeries(
+        #     self, '3调整电阻',
+        #     z=para['Rt_25Hz_Coding']))
+
+        # self.add_child('3室内隔离盒', TcsrNGL25HzCoding(
+        #     self, '3室内隔离盒',
+        #     z1=para['z1_NGL_25Hz_Coding'],
+        #     c1=para['C1_NGL_25Hz_Coding'],
+        #     l=para['L_NGL_25Hz_Coding'],
+        #     c3=para['C3_NGL_25Hz_Coding'],
+        #     c4=para['C4_NGL_25Hz_Coding']))
+
         self.add_child('3调整电阻', TPortZSeries(
             self, '3调整电阻',
-            z=para['Rt_25Hz_Coding']))
+            z=para['480_R_adjust']))
 
-        self.add_child('3室内隔离盒', TcsrNGL25HzCoding(
+        self.add_child('3室内隔离盒', TcsrNGL480Coding(
             self, '3室内隔离盒',
-            z1=para['z1_NGL_25Hz_Coding'],
-            c1=para['C1_NGL_25Hz_Coding'],
-            l=para['L_NGL_25Hz_Coding'],
-            c3=para['C3_NGL_25Hz_Coding'],
-            c4=para['C4_NGL_25Hz_Coding']))
+            lc1=para['480_NGL_LC1'],
+            c1=para['480_NGL_C1'],
+            lc2=para['480_NGL_LC2']))
 
         self.add_child('4Cab', TPortCable(
             self, '4Cab',
@@ -384,15 +394,25 @@ class ZPW2000A_ZN_25Hz_Coding(TCSR):
             cab_l=para['Cable_L'],
             cab_c=para['Cable_C']))
 
-        self.add_child('5室外隔离盒', TcsrWGL25HzCoding(
+        # self.add_child('5室外隔离盒', TcsrWGL25HzCoding(
+        #     self, '5室外隔离盒',
+        #     l1=para['L1_WGL_25Hz_Coding'],
+        #     c1=para['C1_WGL_25Hz_Coding'],
+        #     zs=para['zs_WGL_25Hz_Coding'],
+        #     zm=para['zm_WGL_25Hz_Coding'],
+        #     n=para['n_WGL_25Hz_Coding'],
+        #     c2=para['C2_WGL_25Hz_Coding'],
+        #     l2=para['L2_WGL_25Hz_Coding']))
+
+        self.add_child('5室外隔离盒', TcsrWGL480Coding(
             self, '5室外隔离盒',
-            l1=para['L1_WGL_25Hz_Coding'],
-            c1=para['C1_WGL_25Hz_Coding'],
+            l1=para['480_WGL_L1'],
+            c1=para['480_WGL_C1'],
             zs=para['zs_WGL_25Hz_Coding'],
             zm=para['zm_WGL_25Hz_Coding'],
-            n=para['n_WGL_25Hz_Coding'],
-            c2=para['C2_WGL_25Hz_Coding'],
-            l2=para['L2_WGL_25Hz_Coding']))
+            n=para['480_WGL_n'],
+            c2=para['480_WGL_C2'],
+            l2=para['480_WGL_L2']))
         
         # todo: 去掉扼流
         # self.add_child('6扼流', TcsrEL25HzCoding(

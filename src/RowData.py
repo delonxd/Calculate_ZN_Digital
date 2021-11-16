@@ -628,7 +628,7 @@ class RowData:
     #################################################################################
 
     # 25Hz电码化参数
-    def config_25Hz_coding_device(self, pd_read_flag=False):
+    def config_25Hz_coding_device(self, n_FT1u=40, r_adj=100, pd_read_flag=False):
         df_input, para, data = self.read_parameters()
 
         # # 发码方向
@@ -666,8 +666,10 @@ class RowData:
             #     2600: [value_r1, value_l1, None]}
 
             n2_FT1u = df_input['FT1-U二次侧输出电压(V)']
+            r_adj = 100
         else:
-            n2_FT1u = 40
+            # n2_FT1u = 40
+            n2_FT1u = n_FT1u
 
         value_n = 170 / n2_FT1u
         para['n_FT1u_25Hz_Coding'] = {
@@ -675,6 +677,12 @@ class RowData:
             2000: value_n,
             2300: value_n,
             2600: value_n}
+
+        para['480_R_adjust'].rlc_s = {
+            1700: [r_adj, None, None],
+            2000: [r_adj, None, None],
+            2300: [r_adj, None, None],
+            2600: [r_adj, None, None]}
 
         #################################################################################
 

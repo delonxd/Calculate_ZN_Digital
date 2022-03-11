@@ -91,7 +91,8 @@ def main_cal(path1, path2, path3):
     # head_list = config_headlist_inhibitor_c()
     # head_list = config_headlist_hanjialing()
     # head_list = config_headlist_20200730()
-    head_list = config_headlist_V001()
+    # head_list = config_headlist_V001()
+    head_list = config_headlist_ZN_digital()
 
     #################################################################################
 
@@ -106,13 +107,27 @@ def main_cal(path1, path2, path3):
 
     clist1 = clist2 = clist3 = clist4 = clist5 = clist6 = [[]]
 
-    clist1 = [1e-7, 0.15]
-    clist2 = [10000, 1]
-    clist3 = [(850, 9), (950, 10), (1050, 11)]
+    # clist1 = list(range(5, 16))
+    # clist2 = list(range(5, 14))
+    # clist3 = list(range(20, 85, 5))
+    # # clist4 = [100, 300]
+    #
+    # # clist5 = [1700, 2000, 2300, 2600]
+    # clist6 = [1700, 2000, 2300, 2600]
 
+    # clist1 = list(range(5, 16, 1))
+    clist2 = list(range(2, 13, 2))
+    # # clist2 = [0, 5, 7, 9, 10, 11]
+    # clist3 = [25]
+    # clist4 = list(range(500, 1051, 50))
+
+    # clist1 = [10]
+    # clist2 = [8]
+    # clist3 = [25]
+    # clist4 = [850]
+    # clist4 = ['右发', '左发']
     clist5 = [1700, 2000, 2300, 2600]
     clist6 = [1700, 2000, 2300, 2600]
-    # clist4 = [100, 300]
 
     clist = list(itertools.product(
         clist1, clist2, clist3, clist4, clist5, clist6))
@@ -170,35 +185,36 @@ def main_cal(path1, path2, path3):
 
         # 备注
         # row_data.config_remarks('主分路被调整', pd_read_flag=False)
-        row_data.config_remarks('480Hz电码化', pd_read_flag=flag)
+        row_data.config_remarks('方案2', pd_read_flag=flag)
 
         row_data.config_sec_name('', '', pd_read_flag=flag)
 
         # row_data.config_sec_length(cv2.lens_zhu[0], cv2.lens_bei[cv2.index_bei], pd_read_flag=flag)
-        row_data.config_sec_length(tup[2][0], tup[2][0], pd_read_flag=flag)
+        row_data.config_sec_length(850, 850, pd_read_flag=flag)
         row_data.config_offset(0, pd_read_flag=False)
         # row_data.config_offset(0, pd_read_flag=True)
 
-        row_data.config_mutual_coeff(20, pd_read_flag=flag)
+        row_data.config_mutual_coeff(19.6, pd_read_flag=flag)
         # row_data.config_freq(cv1[0], cv1[1], pd_read_flag=flag)
         row_data.config_freq(tup[4], tup[5], pd_read_flag=flag)
         # row_data.config_freq(cv1, cv2, pd_read_flag=flag)
         # row_data.config_c_num('auto', 'auto', pd_read_flag=flag)
-        row_data.config_c_num(tup[2][1], tup[2][1], pd_read_flag=flag)
+        # row_data.config_c_num(8, 8, pd_read_flag=flag)
+        row_data.config_c_num(tup[1], tup[1], pd_read_flag=flag)
         row_data.config_c_posi(None, None, pd_read_flag=False)
         # if temp_temp == 4:
         #     row_data.config_c_posi(None, [514/2], pd_read_flag=False)
         row_data.config_c2TB(False)
 
-        c_value_dict = {
-            1700: 80,
-            2000: 80,
-            2300: 60,
-            2600: 60,
-        }
+        # c_value_dict = {
+        #     1700: 80,
+        #     2000: 80,
+        #     2300: 60,
+        #     2600: 60,
+        # }
 
-        # row_data.config_c_value(25, 25, pd_read_flag=flag)
-        row_data.config_c_value(c_value_dict[tup[4]], c_value_dict[tup[5]], pd_read_flag=flag)
+        row_data.config_c_value(25, 25, pd_read_flag=flag)
+        # row_data.config_c_value(c_value_dict[tup[4]], c_value_dict[tup[5]], pd_read_flag=flag)
 
         # row_data.config_c_inhibitor(pd_read_flag=flag)
 
@@ -210,7 +226,7 @@ def main_cal(path1, path2, path3):
         row_data.config_c_fault_mode(['无'], ['无'], pd_read_flag=False)
         row_data.config_c_fault_num([], [], pd_read_flag=False)
 
-        row_data.config_rd(tup[1], tup[1], pd_read_flag=flag, respectively=True)
+        row_data.config_rd(10000, 10000, pd_read_flag=flag, respectively=True)
 
         # row_data.config_trk_z(pd_read_flag=flag, respectively=False)
         # row_data.config_trk_z(pd_read_flag=flag, respectively=True)
@@ -223,6 +239,7 @@ def main_cal(path1, path2, path3):
         # row_data.config_TB_mode('双端TB', pd_read_flag=False)
 
         row_data.config_sr_mode('右发', '右发', pd_read_flag=False)
+        # row_data.config_sr_mode('双端', '双端', pd_read_flag=False)
         # row_data.config_sr_mode('右发', '左发', pd_read_flag=False)
         # row_data.config_sr_mode('', '', pd_read_flag=True)
 
@@ -233,32 +250,34 @@ def main_cal(path1, path2, path3):
         #     row_data.config_pop([2,4,5], [], pd_read_flag=False)
 
         row_data.config_cable_para()
-        row_data.config_cable_length(0.5, 0.5, pd_read_flag=flag, respectively=True)
+        row_data.config_cable_length(4, 4, pd_read_flag=flag, respectively=True)
         # row_data.config_r_sht(1e-7, 1e-7, pd_read_flag=flag, respectively=True)
-        row_data.config_r_sht(tup[0], tup[0], pd_read_flag=False, respectively=True)
-        row_data.config_power(1, '最大', pd_read_flag=flag)
+        row_data.config_r_sht(1e-7, 1e-7, pd_read_flag=False, respectively=True)
+        row_data.config_power(6, 40, pd_read_flag=flag)
 
         row_data.config_sp_posi()
         row_data.config_train_signal()
         row_data.config_error()
 
-        interval = row_data.config_interval(1, pd_read_flag=False)
+        row_data.config_digital_EL(n=10, pd_read_flag=False)
+
+        interval = row_data.config_interval(5, pd_read_flag=False)
 
         if data['被串故障模式'] is None:
             print(para['freq_被'], para['被串故障模式'])
             continue
         data2excel.add_new_row()
 
-        # 电码化
-
-        n_FT1u = 60
-        r_adj_zhu = 300
-        r_adj_bei = 300
-        row_data.config_25Hz_coding_device(n_FT1u=n_FT1u, r_adj=r_adj_zhu, pd_read_flag=False)
-
-        data['FT1-U输出电压(V)'] = n_FT1u
-        data['主串调整电阻(Ω)'] = r_adj_zhu
-        data['被串调整电阻(Ω)'] = r_adj_bei
+        # # 电码化
+        #
+        # n_FT1u = 60
+        # r_adj_zhu = 300
+        # r_adj_bei = 300
+        # row_data.config_25Hz_coding_device(n_FT1u=n_FT1u, r_adj=r_adj_zhu, pd_read_flag=False)
+        #
+        # data['FT1-U输出电压(V)'] = n_FT1u
+        # data['主串调整电阻(Ω)'] = r_adj_zhu
+        # data['被串调整电阻(Ω)'] = r_adj_bei
 
         len_posi = 0
 
@@ -290,31 +309,8 @@ def main_cal(path1, path2, path3):
 
         # 分路计算
 
-        md = PreModel_25Hz_coding(parameter=para)
-        z_adjust_bei = ImpedanceMultiFreq()
-        z_adjust_bei.rlc_s = {
-            1700: [r_adj_bei, None, None],
-            2000: [r_adj_bei, None, None],
-            2300: [r_adj_bei, None, None],
-            2600: [r_adj_bei, None, None]}
-
-        md.lg['线路4']['地面']['区段1']['右调谐单元']['3调整电阻'].z = z_adjust_bei
-
-        # todo: 电容损坏
-        v_error = 16 * 1e-6
-        c_error = ImpedanceMultiFreq()
-        c_error.rlc_s = {
-            1700: [10e-3, None, v_error],
-            2000: [10e-3, None, v_error],
-            2300: [10e-3, None, v_error],
-            2600: [10e-3, None, v_error]}
-
-        # c_error.rlc_s = {
-        #     1700: [1e10, None, None],
-        #     2000: [1e10, None, None],
-        #     2300: [1e10, None, None],
-        #     2600: [1e10, None, None]}
-        # md.section_group4['区段1']['C7'].z = c_error
+        # md = PreModel_25Hz_coding(parameter=para)
+        md = PreModel_ZN_Digital(parameter=para)
 
         md.add_train()
         # md.add_train_bei()
@@ -335,7 +331,6 @@ def main_cal(path1, path2, path3):
 
             # todo: 主串分路位置
             posi_zhu = posi_bei
-            # posi_zhu = 530
             md.train2.posi_rlt = posi_zhu
             md.train2.set_posi_abs(0)
 
@@ -344,7 +339,7 @@ def main_cal(path1, path2, path3):
             i_sht_zhu = md.lg['线路3']['列车2']['分路电阻1']['I'].value_c
             i_sht_bei = md.lg['线路4']['列车1']['分路电阻1']['I'].value_c
 
-            if data['被串方向'] == '右发':
+            if data['被串方向'] == '右发' or data['被串方向'] == '双端':
                 i_trk_bei = get_i_trk(line=m1['线路4'], posi=posi_bei, direct='右')
             else:
                 i_trk_bei = get_i_trk(line=m1['线路4'], posi=posi_bei, direct='左')
@@ -380,13 +375,16 @@ def main_cal(path1, path2, path3):
         print('最大干扰电流：%.2f mA' % max_i)
 
         data_row = [data[key] for key in head_list]
+
+        print(data_row)
+        print('#'*200)
+
         excel_data.append(data_row)
 
         # if counter == 10:
         #     break
 
         counter += 1
-
 
         #################################################################################
 

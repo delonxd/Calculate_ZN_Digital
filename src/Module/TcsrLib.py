@@ -413,7 +413,7 @@ class ZPW2000A_ZN_25Hz_Coding(TCSR):
             n=para['480_WGL_n'],
             c2=para['480_WGL_C2'],
             l2=para['480_WGL_L2']))
-        
+
         # todo: 去掉扼流
         # self.add_child('6扼流', TcsrEL25HzCoding(
         #     self, '6扼流',
@@ -433,3 +433,81 @@ class ZPW2000A_ZN_25Hz_Coding(TCSR):
 
         self.md_list = self.get_md_list([])
         self.config_varb()
+
+
+# ZPW2000A站内数字化轨道电路
+class ZPW2000A_ZN_Digital(TCSR):
+    # def __init__(self, parent_ins, name_base, posi_flag):
+    def __init__(self, parent_ins, name_base,
+                 posi_flag, cable_length, mode, level):
+        super().__init__(parent_ins, name_base, posi_flag)
+        self.parameter = para = parent_ins.parameter
+        self.posi_flag = posi_flag
+        self.init_position(0)
+        self.flag_ele_list = True
+        self.flag_ele_unit = True
+        self.mode = mode
+        self.send_level = level
+        # self.u_list_max = [183, 164, 142, 115, 81.5, 68, 60.5, 48.6, 40.8]
+        # self.u_list_min = [167, 150, 130, 105, 74.5, 61, 55, 44, 37]
+        self.u_list_max = [40] * 9
+        self.u_list_min = [40] * 9
+
+        if self.mode == '发送':
+            self.add_child('1发送器', TcsrPower(self, '1发送器', para['z_pwr']))
+        elif self.mode == '接收':
+            self.add_child('1接收器', TcsrReceiver(self, '1接收器', para['Z_rcv']))
+
+        self.add_child('2防雷', TcsrFL(self, '2防雷',
+                                     para['FL_z1_发送端'],
+                                     para['FL_z2_发送端'],
+                                     para['FL_n_发送端']))
+
+        self.add_child('3Cab', TPortCable(self, '3Cab', cable_length,
+                                          para['Cable_R'],
+                                          para['Cable_L'],
+                                          para['Cable_C']))
+
+        # self.add_child('5扼流', TcsrEL_Digital_1129(self, '5扼流',
+        #                                           para['EL_1129_z1'],
+        #                                           para['EL_1129_z2'],
+        #                                           para['EL_1129_n']))
+
+        self.add_child('4TAD', TcsrTAD(self, '4TAD',
+                                       para['TAD_z1_发送端_区间'],
+                                       para['TAD_z2_发送端_区间'],
+                                       para['TAD_z3_发送端_区间'],
+                                       para['EL_1129_n'],
+                                       para['TAD_c_发送端_区间']))
+
+        self.add_child('5SVA', Tcsr_Digital_SVA(self, '5SVA', para['Digital_SVA']))
+
+        self.add_child('6C', Tcsr_Digital_C(self, '6C', para['Digital_C_adjust']))
+
+        self.add_child('7CA', TcsrCA(self, '7CA', para['CA_z_站内']))
+        self.md_list = self.get_md_list([])
+        self.config_varb()
+
+
+# ZPW2000A站内数字化轨道电路_中间接收
+class ZPW2000A_ZN_Digital_Middle(ZPW2000A_ZN_Digital):
+    def __init__(self, parent_ins, name_base,
+                 posi_flag, cable_length, mode, level):
+        super().__init__(parent_ins, name_base, posi_flag, cable_length, '接收', level)
+
+    # 相对位置
+    @property
+    def posi_rlt(self):
+        return self.parent_ins.s_length / 2
+
+    # 隶属的绝缘节
+    @property
+    def parent_joint(self):
+        return None
+
+
+# ZPW2000A站内数字化轨道电路_两端发送
+class ZPW2000A_ZN_Digital_Side(ZPW2000A_ZN_Digital):
+    def __init__(self, parent_ins, name_base,
+                 posi_flag, cable_length, mode, level):
+        super().__init__(parent_ins, name_base, posi_flag, cable_length, '发送', level)

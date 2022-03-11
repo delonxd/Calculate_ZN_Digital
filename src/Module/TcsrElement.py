@@ -287,3 +287,45 @@ class TcsrWGL480Coding(ElePack):
         self.add_child('5变压器', TPortCircuitN(self, '5变压器', n))
         self.add_child('6电容C2', TPortZSeries(self, '6电容C2', c2))
         self.add_child('7电感L2', TPortZParallel(self, '7电感L2', l2))
+
+
+# 数字化扼流变压器
+class TcsrEL_Digital_1129(ElePack):
+    def __init__(self, parent_ins, name_base, zs, zm, n):
+        super().__init__(parent_ins, name_base)
+        self.flag_ele_list = True
+        self.add_child('1短路阻抗', TPortZSeries(self, '1短路阻抗', zs))
+        self.add_child('2开路阻抗', TPortZParallel(self, '2开路阻抗', zm))
+        self.add_child('3变压器', TPortCircuitN(self, '3变压器', n))
+
+########################################################################################################################
+
+
+# 数字化SVA
+class Tcsr_Digital_SVA(TPortZParallel):
+    def __init__(self, parent_ins, name_base, z):
+        super().__init__(parent_ins, name_base, z)
+
+    def get_coeffs(self, freq):
+        z = self.z[self.m_freq.value][freq].z
+        self.value2coeffs(z)
+        return self.equs
+
+    @property
+    def m_freq(self):
+        return self.parent_ins.m_freq
+
+
+# 数字化调谐C
+class Tcsr_Digital_C(TPortZParallel):
+    def __init__(self, parent_ins, name_base, z):
+        super().__init__(parent_ins, name_base, z)
+
+    def get_coeffs(self, freq):
+        z = self.z[self.m_freq.value][freq].z
+        self.value2coeffs(z)
+        return self.equs
+
+    @property
+    def m_freq(self):
+        return self.parent_ins.m_freq

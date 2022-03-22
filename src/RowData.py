@@ -839,67 +839,106 @@ class RowData:
             pass
         else:
 
-            data['数字化扼流变比'] = para['数字化扼流变比'] = n
+            data['变压器变比'] = para['变压器变比'] = n
 
-            tmp_n = n * n / 100
+            # tmp_n = n * n / 100
+            #
+            # para['EL_1129_z1'] = ImpedanceMultiFreq()
+            # para['EL_1129_z1'].rlc_s = {
+            #     1700: [28.70e-3, 15.84e-6, None],
+            #     2000: [29.90e-3, 15.76e-6, None],
+            #     2300: [31.05e-3, 15.70e-6, None],
+            #     2600: [32.20e-3, 15.65e-6, None]}
+            #
+            # para['EL_1129_z1'] = para['EL_1129_z1'] * tmp_n
+            #
+            # para['EL_1129_z2'] = ImpedanceMultiFreq()
+            # para['EL_1129_z2'].rlc_s = {
+            #     1700: [1.435, 744.6e-6, None],
+            #     2000: [1.850, 744.7e-6, None],
+            #     2300: [2.326, 747.0e-6, None],
+            #     2600: [2.865, 752.5e-6, None]}
+            #
+            # para['EL_1129_z2'] = para['EL_1129_z2'] * tmp_n * 100
+            #
+            # para['EL_1129_n'] = {
+            #     1700: n,
+            #     2000: n,
+            #     2300: n,
+            #     2600: n}
 
-            para['EL_1129_z1'] = ImpedanceMultiFreq()
-            para['EL_1129_z1'].rlc_s = {
-                1700: [28.70e-3, 15.84e-6, None],
-                2000: [29.90e-3, 15.76e-6, None],
-                2300: [31.05e-3, 15.70e-6, None],
-                2600: [32.20e-3, 15.65e-6, None]}
+            # if para['备注'] == '方案1':
+            #     tmp1 = (16e-3, 32.95e-6, None)
+            #     tmp2 = (21e-3, 32.75e-6, None)
+            #     tmp3 = (20e-3, None, 225e-6)
+            #     tmp4 = (20e-3, None, 129e-6)
+            #
+            # elif para['备注'] == '方案2':
+            #     tmp1 = (22.6e-3, 65.9e-6, None)
+            #     tmp2 = (29.7e-3, 65.5e-6, None)
+            #     tmp3 = (20e-3, None, 112.4e-6)
+            #     tmp4 = (130e-3, None, 64.4e-6)
+            #
+            # sva_low = ImpedanceMultiFreq()
+            # sva_low.rlc_s = {1700: tmp1, 2000: tmp1, 2300: tmp1, 2600: tmp1}
+            #
+            # sva_high = ImpedanceMultiFreq()
+            # sva_high.rlc_s = {1700: tmp2, 2000: tmp2, 2300: tmp2, 2600: tmp2}
+            #
+            # c_adjust_low = ImpedanceMultiFreq()
+            # c_adjust_low.rlc_s = {1700: tmp3, 2000: tmp3, 2300: tmp3, 2600: tmp3}
+            #
+            # c_adjust_high = ImpedanceMultiFreq()
+            # c_adjust_high.rlc_s = {1700: tmp4, 2000: tmp4, 2300: tmp4, 2600: tmp4}
+            #
+            # para['Digital_SVA'] = {}
+            # para['Digital_SVA'][1700] = sva_low
+            # para['Digital_SVA'][2000] = sva_low
+            # para['Digital_SVA'][2300] = sva_high
+            # para['Digital_SVA'][2600] = sva_high
+            #
+            # para['Digital_C_adjust'] = {}
+            # para['Digital_C_adjust'][1700] = c_adjust_low
+            # para['Digital_C_adjust'][2000] = c_adjust_low
+            # para['Digital_C_adjust'][2300] = c_adjust_high
+            # para['Digital_C_adjust'][2600] = c_adjust_high
 
-            para['EL_1129_z1'] = para['EL_1129_z1'] * tmp_n
+            para['Digital_SVA'] = {}
+            tmp1 = (15e-3, 33e-6, None)
+            tmp2 = (17e-3, 32.9e-6, None)
+            tmp3 = (20e-3, 32.8e-6, None)
+            tmp4 = (22e-3, 32.7e-6, None)
 
-            para['EL_1129_z2'] = ImpedanceMultiFreq()
-            para['EL_1129_z2'].rlc_s = {
-                1700: [1.435, 744.6e-6, None],
-                2000: [1.850, 744.7e-6, None],
-                2300: [2.326, 747.0e-6, None],
-                2600: [2.865, 752.5e-6, None]}
+            para['Digital_SVA'][1700] = ImpedanceMultiFreq()
+            para['Digital_SVA'][2000] = ImpedanceMultiFreq()
+            para['Digital_SVA'][2300] = ImpedanceMultiFreq()
+            para['Digital_SVA'][2600] = ImpedanceMultiFreq()
+            para['Digital_SVA'][1700].rlc_s = {1700: tmp1, 2000: tmp1, 2300: tmp1, 2600: tmp1}
+            para['Digital_SVA'][2000].rlc_s = {1700: tmp2, 2000: tmp2, 2300: tmp2, 2600: tmp2}
+            para['Digital_SVA'][2300].rlc_s = {1700: tmp3, 2000: tmp3, 2300: tmp3, 2600: tmp3}
+            para['Digital_SVA'][2600].rlc_s = {1700: tmp4, 2000: tmp4, 2300: tmp4, 2600: tmp4}
 
-            para['EL_1129_z2'] = para['EL_1129_z2'] * tmp_n * 100
+            para['Digital_C_adjust'] = {}
 
-            para['EL_1129_n'] = {
+            tmp1 = (10e-3, None, 265e-6)
+            tmp2 = (17e-3, None, 192e-6)
+            tmp3 = (25e-3, None, 146e-6)
+            tmp4 = (35e-3, None, 115e-6)
+
+            para['Digital_C_adjust'][1700] = ImpedanceMultiFreq()
+            para['Digital_C_adjust'][2000] = ImpedanceMultiFreq()
+            para['Digital_C_adjust'][2300] = ImpedanceMultiFreq()
+            para['Digital_C_adjust'][2600] = ImpedanceMultiFreq()
+            para['Digital_C_adjust'][1700].rlc_s = {1700: tmp1, 2000: tmp1, 2300: tmp1, 2600: tmp1}
+            para['Digital_C_adjust'][2000].rlc_s = {1700: tmp2, 2000: tmp2, 2300: tmp2, 2600: tmp2}
+            para['Digital_C_adjust'][2300].rlc_s = {1700: tmp3, 2000: tmp3, 2300: tmp3, 2600: tmp3}
+            para['Digital_C_adjust'][2600].rlc_s = {1700: tmp4, 2000: tmp4, 2300: tmp4, 2600: tmp4}
+
+            para['TAD_zm_发送端_数字化_折算'] = para['TAD_zm_发送端_数字化'] * n * n / 81
+            para['TAD_zm_接受端_数字化_折算'] = para['TAD_zm_接受端_数字化'] * n * n / 81
+            para['TAD_n_数字化'] = {
                 1700: n,
                 2000: n,
                 2300: n,
                 2600: n}
-
-            if para['备注'] == '方案1':
-                tmp1 = (16e-3, 32.95e-6, None)
-                tmp2 = (21e-3, 32.75e-6, None)
-                tmp3 = (20e-3, None, 225e-6)
-                tmp4 = (20e-3, None, 129e-6)
-
-            elif para['备注'] == '方案2':
-                tmp1 = (22.6e-3, 65.9e-6, None)
-                tmp2 = (29.7e-3, 65.5e-6, None)
-                tmp3 = (20e-3, None, 112.4e-6)
-                tmp4 = (130e-3, None, 64.4e-6)
-
-            sva_low = ImpedanceMultiFreq()
-            sva_low.rlc_s = {1700: tmp1, 2000: tmp1, 2300: tmp1, 2600: tmp1}
-
-            sva_high = ImpedanceMultiFreq()
-            sva_high.rlc_s = {1700: tmp2, 2000: tmp2, 2300: tmp2, 2600: tmp2}
-
-            c_adjust_low = ImpedanceMultiFreq()
-            c_adjust_low.rlc_s = {1700: tmp3, 2000: tmp3, 2300: tmp3, 2600: tmp3}
-
-            c_adjust_high = ImpedanceMultiFreq()
-            c_adjust_high.rlc_s = {1700: tmp4, 2000: tmp4, 2300: tmp4, 2600: tmp4}
-
-            para['Digital_SVA'] = {}
-            para['Digital_SVA'][1700] = sva_low
-            para['Digital_SVA'][2000] = sva_low
-            para['Digital_SVA'][2300] = sva_high
-            para['Digital_SVA'][2600] = sva_high
-
-            para['Digital_C_adjust'] = {}
-            para['Digital_C_adjust'][1700] = c_adjust_low
-            para['Digital_C_adjust'][2000] = c_adjust_low
-            para['Digital_C_adjust'][2300] = c_adjust_high
-            para['Digital_C_adjust'][2600] = c_adjust_high
 

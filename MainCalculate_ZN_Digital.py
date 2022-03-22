@@ -115,19 +115,19 @@ def main_cal(path1, path2, path3):
     # # clist5 = [1700, 2000, 2300, 2600]
     # clist6 = [1700, 2000, 2300, 2600]
 
-    # clist1 = list(range(5, 16, 1))
+    clist1 = list(range(5, 16, 1))
     clist2 = list(range(2, 13, 2))
-    # # clist2 = [0, 5, 7, 9, 10, 11]
-    # clist3 = [25]
-    # clist4 = list(range(500, 1051, 50))
-
-    # clist1 = [10]
-    # clist2 = [8]
-    # clist3 = [25]
-    # clist4 = [850]
-    # clist4 = ['右发', '左发']
+    clist3 = [2, 2.5, 3, 3.5, 4]
+    clist4 = list(range(500, 1051, 50))
     clist5 = [1700, 2000, 2300, 2600]
     clist6 = [1700, 2000, 2300, 2600]
+
+    # clist1 = list(range(5, 16, 1))
+    # clist2 = [8]
+    # clist3 = [4]
+    # clist4 = [850]
+    # clist5 = [2600]
+    # clist6 = [2000]
 
     clist = list(itertools.product(
         clist1, clist2, clist3, clist4, clist5, clist6))
@@ -185,12 +185,12 @@ def main_cal(path1, path2, path3):
 
         # 备注
         # row_data.config_remarks('主分路被调整', pd_read_flag=False)
-        row_data.config_remarks('方案2', pd_read_flag=flag)
+        row_data.config_remarks('', pd_read_flag=flag)
 
         row_data.config_sec_name('', '', pd_read_flag=flag)
 
         # row_data.config_sec_length(cv2.lens_zhu[0], cv2.lens_bei[cv2.index_bei], pd_read_flag=flag)
-        row_data.config_sec_length(850, 850, pd_read_flag=flag)
+        row_data.config_sec_length(tup[3], tup[3], pd_read_flag=flag)
         row_data.config_offset(0, pd_read_flag=False)
         # row_data.config_offset(0, pd_read_flag=True)
 
@@ -238,8 +238,8 @@ def main_cal(path1, path2, path3):
         # row_data.config_TB_mode('双端TB', pd_read_flag=flag)
         # row_data.config_TB_mode('双端TB', pd_read_flag=False)
 
-        row_data.config_sr_mode('右发', '右发', pd_read_flag=False)
-        # row_data.config_sr_mode('双端', '双端', pd_read_flag=False)
+        # row_data.config_sr_mode('右发', '右发', pd_read_flag=False)
+        row_data.config_sr_mode('双端', '双端', pd_read_flag=False)
         # row_data.config_sr_mode('右发', '左发', pd_read_flag=False)
         # row_data.config_sr_mode('', '', pd_read_flag=True)
 
@@ -250,7 +250,7 @@ def main_cal(path1, path2, path3):
         #     row_data.config_pop([2,4,5], [], pd_read_flag=False)
 
         row_data.config_cable_para()
-        row_data.config_cable_length(4, 4, pd_read_flag=flag, respectively=True)
+        row_data.config_cable_length(tup[2], tup[2], pd_read_flag=flag, respectively=True)
         # row_data.config_r_sht(1e-7, 1e-7, pd_read_flag=flag, respectively=True)
         row_data.config_r_sht(1e-7, 1e-7, pd_read_flag=False, respectively=True)
         row_data.config_power(6, 40, pd_read_flag=flag)
@@ -259,7 +259,7 @@ def main_cal(path1, path2, path3):
         row_data.config_train_signal()
         row_data.config_error()
 
-        row_data.config_digital_EL(n=10, pd_read_flag=False)
+        row_data.config_digital_EL(n=tup[0], pd_read_flag=False)
 
         interval = row_data.config_interval(5, pd_read_flag=False)
 

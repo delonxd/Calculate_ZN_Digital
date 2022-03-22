@@ -610,6 +610,43 @@ class ModelParameter:
             2300: [100, None, None],
             2600: [100, None, None]}
 
+########################################################################################################################
+
+        parameter['TAD_zs_发送端_数字化'] = ImpedanceMultiFreq()
+        parameter['TAD_zs_发送端_数字化'].rlc_s = {
+            1700: (7.83, 1.16e-3, None),
+            2000: (7.94, 1.37e-3, None),
+            2300: (7.73, 1.54e-3, None),
+            2600: (7.95, 1.92e-3, None)}
+
+        parameter['TAD_zm_发送端_数字化'] = ImpedanceMultiFreq()
+        parameter['TAD_zm_发送端_数字化'].rlc_s = {
+            1700: (2404e-3, 117e-3, None),
+            2000: (2638e-3, 90e-3, None),
+            2300: (2808e-3, 71e-3, None),
+            2600: (2967e-3, 57e-3, None)}
+
+        parameter['TAD_zs_接受端_数字化'] = ImpedanceMultiFreq()
+        parameter['TAD_zs_接受端_数字化'].rlc_s = {
+            1700: (5.02, 0.627e-3, None),
+            2000: (4.38, 0.638e-3, None),
+            2300: (3.03, 0.520e-3, None),
+            2600: (1.91, 0.453e-3, None)}
+
+        parameter['TAD_zm_接受端_数字化'] = ImpedanceMultiFreq()
+        parameter['TAD_zm_接受端_数字化'].rlc_s = {
+            1700: (1496e-3, 116e-3, None),
+            2000: (1783e-3, 98e-3, None),
+            2300: (2001e-3, 84e-3, None),
+            2600: (2210e-3, 72e-3, None)}
+
+        n_tmp = 9
+        parameter['TAD_n_数字化'] = {
+            1700: n_tmp,
+            2000: n_tmp,
+            2300: n_tmp,
+            2600: n_tmp}
+
         self.parameter = parameter
 
     def __len__(self):

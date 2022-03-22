@@ -458,10 +458,10 @@ class ZPW2000A_ZN_Digital(TCSR):
         elif self.mode == '接收':
             self.add_child('1接收器', TcsrReceiver(self, '1接收器', para['Z_rcv']))
 
-        self.add_child('2防雷', TcsrFL(self, '2防雷',
-                                     para['FL_z1_发送端'],
-                                     para['FL_z2_发送端'],
-                                     para['FL_n_发送端']))
+        # self.add_child('2防雷', TcsrFL(self, '2防雷',
+        #                              para['FL_z1_发送端'],
+        #                              para['FL_z2_发送端'],
+        #                              para['FL_n_发送端']))
 
         self.add_child('3Cab', TPortCable(self, '3Cab', cable_length,
                                           para['Cable_R'],
@@ -473,16 +473,26 @@ class ZPW2000A_ZN_Digital(TCSR):
         #                                           para['EL_1129_z2'],
         #                                           para['EL_1129_n']))
 
-        self.add_child('4TAD', TcsrTAD(self, '4TAD',
-                                       para['TAD_z1_发送端_区间'],
-                                       para['TAD_z2_发送端_区间'],
-                                       para['TAD_z3_发送端_区间'],
-                                       para['EL_1129_n'],
-                                       para['TAD_c_发送端_区间']))
+        # self.add_child('4TAD', TcsrTAD(self, '4TAD',
+        #                                para['TAD_z1_发送端_区间'],
+        #                                para['TAD_z2_发送端_区间'],
+        #                                para['TAD_z3_发送端_区间'],
+        #                                para['EL_1129_n'],
+        #                                para['TAD_c_发送端_区间']))
+        if self.mode == '发送':
+            self.add_child('4TAD', TcsrTransformerOpenShort(self, '4TAD',
+                                                            para['TAD_zs_发送端_数字化'],
+                                                            para['TAD_zm_发送端_数字化_折算'],
+                                                            para['TAD_n_数字化']))
+        elif self.mode == '接收':
+            self.add_child('4TAD', TcsrTransformerOpenShort(self, '4TAD',
+                                                            para['TAD_zs_接受端_数字化'],
+                                                            para['TAD_zm_接受端_数字化_折算'],
+                                                            para['TAD_n_数字化']))
 
-        self.add_child('5SVA', Tcsr_Digital_SVA(self, '5SVA', para['Digital_SVA']))
-
-        self.add_child('6C', Tcsr_Digital_C(self, '6C', para['Digital_C_adjust']))
+        if self.mode == '发送':
+            self.add_child('5SVA', Tcsr_Digital_SVA(self, '5SVA', para['Digital_SVA']))
+            self.add_child('6C', Tcsr_Digital_C(self, '6C', para['Digital_C_adjust']))
 
         self.add_child('7CA', TcsrCA(self, '7CA', para['CA_z_站内']))
         self.md_list = self.get_md_list([])

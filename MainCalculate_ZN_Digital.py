@@ -115,19 +115,25 @@ def main_cal(path1, path2, path3):
     # # clist5 = [1700, 2000, 2300, 2600]
     # clist6 = [1700, 2000, 2300, 2600]
 
-    clist1 = list(range(5, 16, 1))
-    clist2 = list(range(2, 13, 2))
-    clist3 = [2, 2.5, 3, 3.5, 4]
-    clist4 = list(range(500, 1051, 50))
-    clist5 = [1700, 2000, 2300, 2600]
-    clist6 = [1700, 2000, 2300, 2600]
+    # clist1 = list(range(5, 16, 1))
+    # clist1 = [10]
+    # clist1 = list(range(0, 851, 10))
+    clist1 = [[]]
+    # clist2 = list(range(2, 13, 2))
+    # clist3 = [2, 2.5, 3, 3.5, 4]
+    # clist4 = list(range(500, 1051, 50))
+    # clist5 = [1700, 2000, 2300, 2600]
+    # clist6 = [1700, 2000, 2300, 2600]
 
     # clist1 = list(range(5, 16, 1))
-    # clist2 = [8]
-    # clist3 = [4]
-    # clist4 = [850]
-    # clist5 = [2600]
-    # clist6 = [2000]
+    # clist2 = [10]
+
+    clist2 = get_comb_list([8, 10, 12])
+
+    clist3 = [4]
+    clist4 = [850]
+    clist5 = [1700, 2000, 2300, 2600]
+    clist6 = [[]]
 
     clist = list(itertools.product(
         clist1, clist2, clist3, clist4, clist5, clist6))
@@ -185,22 +191,23 @@ def main_cal(path1, path2, path3):
 
         # 备注
         # row_data.config_remarks('主分路被调整', pd_read_flag=False)
-        row_data.config_remarks('', pd_read_flag=flag)
+        row_data.config_remarks('扼流变压器', pd_read_flag=flag)
 
         row_data.config_sec_name('', '', pd_read_flag=flag)
 
         # row_data.config_sec_length(cv2.lens_zhu[0], cv2.lens_bei[cv2.index_bei], pd_read_flag=flag)
         row_data.config_sec_length(tup[3], tup[3], pd_read_flag=flag)
         row_data.config_offset(0, pd_read_flag=False)
+        # row_data.config_offset(300, pd_read_flag=False)
         # row_data.config_offset(0, pd_read_flag=True)
 
         row_data.config_mutual_coeff(19.6, pd_read_flag=flag)
         # row_data.config_freq(cv1[0], cv1[1], pd_read_flag=flag)
-        row_data.config_freq(tup[4], tup[5], pd_read_flag=flag)
+        row_data.config_freq(tup[4], tup[4], pd_read_flag=flag)
         # row_data.config_freq(cv1, cv2, pd_read_flag=flag)
         # row_data.config_c_num('auto', 'auto', pd_read_flag=flag)
         # row_data.config_c_num(8, 8, pd_read_flag=flag)
-        row_data.config_c_num(tup[1], tup[1], pd_read_flag=flag)
+        row_data.config_c_num(tup[1][0], tup[1][0], pd_read_flag=flag)
         row_data.config_c_posi(None, None, pd_read_flag=False)
         # if temp_temp == 4:
         #     row_data.config_c_posi(None, [514/2], pd_read_flag=False)
@@ -227,6 +234,7 @@ def main_cal(path1, path2, path3):
         row_data.config_c_fault_num([], [], pd_read_flag=False)
 
         row_data.config_rd(10000, 10000, pd_read_flag=flag, respectively=True)
+        # row_data.config_rd(1, 1, pd_read_flag=flag, respectively=True)
 
         # row_data.config_trk_z(pd_read_flag=flag, respectively=False)
         # row_data.config_trk_z(pd_read_flag=flag, respectively=True)
@@ -243,7 +251,9 @@ def main_cal(path1, path2, path3):
         # row_data.config_sr_mode('右发', '左发', pd_read_flag=False)
         # row_data.config_sr_mode('', '', pd_read_flag=True)
 
-        row_data.config_pop([], [], pd_read_flag=False)
+        # row_data.config_pop([], [], pd_read_flag=False)
+        row_data.config_pop([], tup[1][1], pd_read_flag=False)
+        # row_data.config_pop(tup[1][1], [], pd_read_flag=False)
         # if temp_temp == 1:
         #     row_data.config_pop([], [2,4,5], pd_read_flag=False)
         # elif temp_temp == 3:
@@ -259,9 +269,12 @@ def main_cal(path1, path2, path3):
         row_data.config_train_signal()
         row_data.config_error()
 
-        row_data.config_digital_EL(n=tup[0], pd_read_flag=False)
+        # row_data.config_digital_EL(n=tup[0], pd_read_flag=False)
+        row_data.config_digital_EL(n=10, pd_read_flag=False)
 
         interval = row_data.config_interval(5, pd_read_flag=False)
+
+        # data['主串分路位置'] = para['主串分路位置'] = tup[0]
 
         if data['被串故障模式'] is None:
             print(para['freq_被'], para['被串故障模式'])
@@ -331,6 +344,7 @@ def main_cal(path1, path2, path3):
 
             # todo: 主串分路位置
             posi_zhu = posi_bei
+            # posi_zhu = para['主串分路位置']
             md.train2.posi_rlt = posi_zhu
             md.train2.set_posi_abs(0)
 
@@ -344,9 +358,14 @@ def main_cal(path1, path2, path3):
             else:
                 i_trk_bei = get_i_trk(line=m1['线路4'], posi=posi_bei, direct='左')
 
+            if data['主串方向'] == '右发' or data['主串方向'] == '双端':
+                i_trk_zhu = get_i_trk(line=m1['线路3'], posi=posi_zhu, direct='右')
+            else:
+                i_trk_zhu = get_i_trk(line=m1['线路3'], posi=posi_zhu, direct='左')
+
             #################################################################################
 
-            # data2excel.add_data(sheet_name="主串钢轨电流", data1=i_trk_zhu)
+            data2excel.add_data(sheet_name="主串钢轨电流", data1=i_trk_zhu)
             data2excel.add_data(sheet_name="主串分路电流", data1=i_sht_zhu)
             data2excel.add_data(sheet_name="被串钢轨电流", data1=i_trk_bei)
             data2excel.add_data(sheet_name="被串分路电流", data1=i_sht_bei)
@@ -427,6 +446,7 @@ def main_cal(path1, path2, path3):
     names = [
         "被串钢轨电流",
         "被串分路电流",
+        "主串钢轨电流",
         "主串分路电流",
     ]
 
@@ -443,6 +463,24 @@ def write_to_excel(df, writer, sheet_name, hfmt):
     worksheet = writer.sheets[sheet_name]
     for col_num, value in enumerate(df.columns.values):
         worksheet.write(0, col_num, value, hfmt)
+
+
+def get_comb(c_num):
+    ret = [[c_num, []]]
+    for pop in itertools.combinations(range(1, c_num + 1), 1):
+        ret.append([c_num, pop])
+    for pop in itertools.combinations(range(1, c_num + 1), 2):
+        ret.append([c_num, pop])
+    return ret
+
+
+def get_comb_list(c_num_list):
+    ret = []
+    for c_num in c_num_list:
+        ret.extend(get_comb(c_num))
+    print(ret)
+
+    return ret
 
 
 if __name__ == '__main__':

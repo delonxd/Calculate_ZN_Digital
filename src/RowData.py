@@ -838,11 +838,32 @@ class RowData:
         if pd_read_flag:
             pass
         else:
-
+            # 扼流固定变比
+            n = 10
             data['变压器变比'] = para['变压器变比'] = n
 
-            # tmp_n = n * n / 100
-            #
+            para['EL_0316_zs'] = ImpedanceMultiFreq()
+            para['EL_0316_zs'].rlc_s = {
+                1700: [2.95, 1.68e-3, None],
+                2000: [3.13, 1.67e-3, None],
+                2300: [3.33, 1.67e-3, None],
+                2600: [3.53, 1.66e-3, None]}
+
+            para['EL_0316_zm'] = ImpedanceMultiFreq()
+            para['EL_0316_zm'].rlc_s = {
+                1700: [30.07, 39.8e-3, None],
+                2000: [40.02, 39.9e-3, None],
+                2300: [51.51, 40.0e-3, None],
+                2600: [64.76, 40.2e-3, None]}
+
+            para['EL_0316_n'] = {
+                1700: n,
+                2000: n,
+                2300: n,
+                2600: n}
+
+            tmp_n = n * n / 100
+
             # para['EL_1129_z1'] = ImpedanceMultiFreq()
             # para['EL_1129_z1'].rlc_s = {
             #     1700: [28.70e-3, 15.84e-6, None],

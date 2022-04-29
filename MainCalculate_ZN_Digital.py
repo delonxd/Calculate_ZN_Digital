@@ -118,7 +118,6 @@ def main_cal(path1, path2, path3):
     # clist1 = list(range(5, 16, 1))
     # clist1 = [10]
     # clist1 = list(range(0, 851, 10))
-    clist1 = [[]]
     # clist2 = list(range(2, 13, 2))
     # clist3 = [2, 2.5, 3, 3.5, 4]
     # clist4 = list(range(500, 1051, 50))
@@ -128,15 +127,40 @@ def main_cal(path1, path2, path3):
     # clist1 = list(range(5, 16, 1))
     # clist2 = [10]
 
-    clist2 = get_comb_list([8, 10, 12])
+    # clist2 = get_comb_list([8, 10, 12])
+    #
+    # clist3 = [4]
+    # clist4 = [850]
+    # clist5 = [1700, 2000, 2300, 2600]
+    # clist6 = [[]]
+    #
+    # clist = list(itertools.product(
+    #     clist1, clist2, clist3, clist4, clist5, clist6))
 
-    clist3 = [4]
-    clist4 = [850]
-    clist5 = [1700, 2000, 2300, 2600]
-    clist6 = [[]]
+    #################################################################################
 
-    clist = list(itertools.product(
-        clist1, clist2, clist3, clist4, clist5, clist6))
+    # clist1 = list(range(100, 1201, 50))
+    # clist2 = [1700, 2000, 2300, 2600]
+    # clist3 = list(range(0, 16, 1))
+    #
+    # clist = list(itertools.product(
+    #     clist1, clist2, clist3))
+
+    #################################################################################
+
+    clist = []
+    for length in range(400, 1251, 50):
+        tmp_num = int(length / 100)
+        for c_num, pop_list in get_comb_list([tmp_num, tmp_num+2, tmp_num+4]):
+            for f in [1700, 2000, 2300, 2600]:
+                # row = [length, c_num, pop_list, f]
+
+                row = [length, f, c_num, pop_list]
+
+                # print(row)
+                clist.append(row)
+
+    #################################################################################
 
     print('总行数：%s' % str(len(clist)))
 
@@ -155,6 +179,7 @@ def main_cal(path1, path2, path3):
     for tup in clist:
 
         print()
+        print(tup)
         # print(cv2.lens_zhu, cv2.lens_bei, cv2.offset, cv2.l_pos, cv2.index_bei)
         # print('offset:%s, l_pos:%s, r_pos:%s' % (cv2.offset, cv2.l_pos, cv2.r_pos))
         #################################################################################
@@ -191,23 +216,23 @@ def main_cal(path1, path2, path3):
 
         # 备注
         # row_data.config_remarks('主分路被调整', pd_read_flag=False)
-        row_data.config_remarks('扼流变压器', pd_read_flag=flag)
+        row_data.config_remarks('扼流_一送一受', pd_read_flag=flag)
 
         row_data.config_sec_name('', '', pd_read_flag=flag)
 
         # row_data.config_sec_length(cv2.lens_zhu[0], cv2.lens_bei[cv2.index_bei], pd_read_flag=flag)
-        row_data.config_sec_length(tup[3], tup[3], pd_read_flag=flag)
+        row_data.config_sec_length(tup[0], tup[0], pd_read_flag=flag)
         row_data.config_offset(0, pd_read_flag=False)
         # row_data.config_offset(300, pd_read_flag=False)
         # row_data.config_offset(0, pd_read_flag=True)
 
         row_data.config_mutual_coeff(19.6, pd_read_flag=flag)
         # row_data.config_freq(cv1[0], cv1[1], pd_read_flag=flag)
-        row_data.config_freq(tup[4], tup[4], pd_read_flag=flag)
+        row_data.config_freq(tup[1], tup[1], pd_read_flag=flag)
         # row_data.config_freq(cv1, cv2, pd_read_flag=flag)
         # row_data.config_c_num('auto', 'auto', pd_read_flag=flag)
         # row_data.config_c_num(8, 8, pd_read_flag=flag)
-        row_data.config_c_num(tup[1][0], tup[1][0], pd_read_flag=flag)
+        row_data.config_c_num(tup[2], tup[2], pd_read_flag=flag)
         row_data.config_c_posi(None, None, pd_read_flag=False)
         # if temp_temp == 4:
         #     row_data.config_c_posi(None, [514/2], pd_read_flag=False)
@@ -246,13 +271,13 @@ def main_cal(path1, path2, path3):
         # row_data.config_TB_mode('双端TB', pd_read_flag=flag)
         # row_data.config_TB_mode('双端TB', pd_read_flag=False)
 
-        # row_data.config_sr_mode('右发', '右发', pd_read_flag=False)
-        row_data.config_sr_mode('双端', '双端', pd_read_flag=False)
+        row_data.config_sr_mode('右发', '右发', pd_read_flag=False)
+        # row_data.config_sr_mode('双端', '双端', pd_read_flag=False)
         # row_data.config_sr_mode('右发', '左发', pd_read_flag=False)
         # row_data.config_sr_mode('', '', pd_read_flag=True)
 
         # row_data.config_pop([], [], pd_read_flag=False)
-        row_data.config_pop([], tup[1][1], pd_read_flag=False)
+        row_data.config_pop([], tup[3], pd_read_flag=False)
         # row_data.config_pop(tup[1][1], [], pd_read_flag=False)
         # if temp_temp == 1:
         #     row_data.config_pop([], [2,4,5], pd_read_flag=False)
@@ -260,7 +285,7 @@ def main_cal(path1, path2, path3):
         #     row_data.config_pop([2,4,5], [], pd_read_flag=False)
 
         row_data.config_cable_para()
-        row_data.config_cable_length(tup[2], tup[2], pd_read_flag=flag, respectively=True)
+        row_data.config_cable_length(4, 4, pd_read_flag=flag, respectively=True)
         # row_data.config_r_sht(1e-7, 1e-7, pd_read_flag=flag, respectively=True)
         row_data.config_r_sht(1e-7, 1e-7, pd_read_flag=False, respectively=True)
         row_data.config_power(6, 40, pd_read_flag=flag)

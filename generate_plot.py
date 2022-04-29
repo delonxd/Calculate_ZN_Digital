@@ -111,7 +111,9 @@ def generate_plot(df_input, c_num, freq, pop_num, ax):
     ax.set_xticks(xx)
     ax.set_xticklabels(x_label)
 
-    ax.legend()
+    # ax.legend(0.95, 0.95, transform=ax.transAxes)
+    ax.legend(loc='upper right')
+
     for label in ax.xaxis.get_ticklabels():
         if pop_num > 1:
             label.set_rotation(90)

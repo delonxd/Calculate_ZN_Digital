@@ -290,6 +290,25 @@ class Section_ZPW2000A_BPLN(Section_ZPW2000A):
                 raise KeyboardInterrupt("绝缘节类型异常：必须为'电气'或'机械'")
         return j_clss, tcsr_clss
 
+    def set_element(self, init_list):
+        m_len, j_lens, c_num, j_typs, sr_mods, send_lv = init_list
+        offset = j_lens[0] / 2
+        n_t = c_num * 2 + 1
+        # 按ZPW-2000A原则设置电容
+        hlf_pst = list(np.linspace(offset, (m_len + offset), n_t))
+        c_pst = [hlf_pst[num*2+1] for num in range(c_num)]
+
+        self.config_c(c_pst)
+
+        j_clss, tcsr_clss = self.config_class(j_typs=j_typs)
+
+        self.config_joint_tcsr(j_clss=j_clss,
+                               tcsr_clss=tcsr_clss,
+                               j_lens=j_lens,
+                               j_typs=j_typs,
+                               sr_mods=sr_mods,
+                               send_lv=send_lv)
+
 
 # 2000A_电码化
 class Section_ZPW2000A_25Hz_Coding(Section_ZPW2000A):

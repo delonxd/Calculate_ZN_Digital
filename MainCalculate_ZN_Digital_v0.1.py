@@ -92,8 +92,8 @@ def main_cal(path1, path2, path3):
     # head_list = config_headlist_hanjialing()
     # head_list = config_headlist_20200730()
     # head_list = config_headlist_V001()
-    # head_list = config_headlist_ZN_digital()
-    head_list = config_headlist_ZN_BPLN_mixed()
+    head_list = config_headlist_ZN_digital()
+    # head_list = config_headlist_ZN_BPLN_mixed()
 
     #################################################################################
 
@@ -108,92 +108,23 @@ def main_cal(path1, path2, path3):
 
     clist1 = clist2 = clist3 = clist4 = clist5 = clist6 = [[]]
 
-    # clist1 = list(range(5, 16))
-    # clist2 = list(range(5, 14))
-    # clist3 = list(range(20, 85, 5))
-    # # clist4 = [100, 300]
-    #
-    # # clist5 = [1700, 2000, 2300, 2600]
-    # clist6 = [1700, 2000, 2300, 2600]
-
-    # clist1 = list(range(5, 16, 1))
-    # clist1 = [10]
-    # clist1 = list(range(0, 851, 10))
-    # clist2 = list(range(2, 13, 2))
-    # clist3 = [2, 2.5, 3, 3.5, 4]
-    # clist4 = list(range(500, 1051, 50))
-    # clist5 = [1700, 2000, 2300, 2600]
-    # clist6 = [1700, 2000, 2300, 2600]
-
-    # clist1 = list(range(5, 16, 1))
-    # clist2 = [10]
-
-    # clist2 = get_comb_list([8, 10, 12])
-    #
-    # clist3 = [4]
-    # clist4 = [850]
-    # clist5 = [1700, 2000, 2300, 2600]
-    # clist6 = [[]]
-    #
-    # clist = list(itertools.product(
-    #     clist1, clist2, clist3, clist4, clist5, clist6))
-
-    #################################################################################
-
-    # clist1 = list(range(100, 1201, 50))
-    # clist2 = [1700, 2000, 2300, 2600]
-    # clist3 = list(range(0, 16, 1))
-    #
-    # clist = list(itertools.product(
-    #     clist1, clist2, clist3))
-
-    #################################################################################
-
-    # clist = []
-    # for length in range(400, 1251, 50):
-    #     tmp_num = int(length / 100)
-    #     for c_num, pop_list in get_comb_list([tmp_num, tmp_num+2, tmp_num+4]):
-    #         for f in [1700, 2000, 2300, 2600]:
-    #             # row = [length, c_num, pop_list, f]
-    #
-    #             row = [length, f, c_num, pop_list]
-    #
-    #             # print(row)
-    #             clist.append(row)
-
-    #################################################################################
-
-    # clist1 = [['2000A_BPLN', '2000A'], ['2000A', '2000A_BPLN']]
-    # clist1 = [['2000A_BPLN', '2000A']]
-    clist1 = [['2000A', '2000A_BPLN']]
-
+    clist1 = [1700, 2000, 2300, 2600]
     clist2 = [1700, 2000, 2300, 2600]
-    clist3 = [1700, 2000, 2300, 2600]
+    clist3 = list(range(100, 1201, 50))
+    # clist4 = list(range(5, 16, 1))
+    clist4 = [10]
+    clist5 = list(range(0, 16, 1))
+    # clist6 = list(range(1, 11, 1))
 
-    clist4 = ['左发', '右发']
-    clist5 = ['左发', '右发']
+    # clist1 = [2600]     # 主串频率
+    # clist2 = [2000]     # 被串频率
+    # clist3 = [650]      # 区段长度
+    # clist4 = [10]       # 扼流变比
+    # clist5 = [12]
+    clist6 = list(range(0, 101, 10))      # 隔直电容
 
-    clist_tmp = list(itertools.product(
+    clist = list(itertools.product(
         clist1, clist2, clist3, clist4, clist5, clist6))
-
-    clist = []
-    for tup in clist_tmp:
-        for i in [3, 4, 5, 6]:
-            if tup[0][0] == '2000A_BPLN' and tup[0][1] == '2000A':
-                length = [i*100, 300]
-                cn = [i, 1]
-            else:
-                length = [300, i*100]
-                cn = [1, i]
-
-            # for offset in range(-length[1], length[0] + 1, 50):
-            #     tmp = [tup[0], tup[1], tup[2], [tup[3], tup[4]], length, cn, offset]
-            #     clist.append(tmp)
-
-            tmp = [tup[0], tup[1], tup[2], [tup[3], tup[4]], length, cn, 0]
-            clist.append(tmp)
-
-    #################################################################################
 
     print('总行数：%s' % str(len(clist)))
 
@@ -202,17 +133,14 @@ def main_cal(path1, path2, path3):
     columns_max = 0
     counter = 1
 
-    temp_temp = 0
     cv1, cv2, cv3, cv4, cv5, cv6 = [0] * 6
 
     # pd_read_flag = True
     pd_read_flag = False
 
-    # for _ in range(1):
+    # for index in range(num_len):
     for tup in clist:
 
-        # print()
-        print(tup)
         # print(cv2.lens_zhu, cv2.lens_bei, cv2.offset, cv2.l_pos, cv2.index_bei)
         # print('offset:%s, l_pos:%s, r_pos:%s' % (cv2.offset, cv2.l_pos, cv2.r_pos))
         #################################################################################
@@ -236,7 +164,8 @@ def main_cal(path1, path2, path3):
         # data2excel.add_new_row()
 
         # 打包行数据
-        df_input_row = df_input.iloc[temp_temp]
+        # df_input_row = df_input.iloc[index]
+        df_input_row = df_input.iloc[0]
         row_data = RowData(df_input_row, para, data, pd_read_flag)
 
         #################################################################################
@@ -248,24 +177,24 @@ def main_cal(path1, path2, path3):
         row_data.config_number(counter, pd_read_flag=flag)
 
         # 备注
-        # row_data.config_remarks("主串BPLN_被串PT+SVA'", pd_read_flag=flag)
         row_data.config_remarks("", pd_read_flag=flag)
 
         row_data.config_sec_name('', '', pd_read_flag=flag)
 
         # row_data.config_sec_length(cv2.lens_zhu[0], cv2.lens_bei[cv2.index_bei], pd_read_flag=flag)
-        row_data.config_sec_length(tup[4][0], tup[4][1], pd_read_flag=flag)
-        row_data.config_offset(tup[6], pd_read_flag=False)
+        # row_data.config_sec_length(tup[4][0], tup[4][1], pd_read_flag=flag)
+        row_data.config_sec_length(tup[2], tup[2], pd_read_flag=flag)
+        row_data.config_offset(0, pd_read_flag=flag)
         # row_data.config_offset(300, pd_read_flag=False)
         # row_data.config_offset(0, pd_read_flag=True)
 
         row_data.config_mutual_coeff(21, pd_read_flag=flag)
         # row_data.config_freq(cv1[0], cv1[1], pd_read_flag=flag)
-        row_data.config_freq(tup[1], tup[2], pd_read_flag=flag)
+        row_data.config_freq(tup[0], tup[1], pd_read_flag=flag)
         # row_data.config_freq(cv1, cv2, pd_read_flag=flag)
         # row_data.config_c_num('auto', 'auto', pd_read_flag=flag)
         # row_data.config_c_num(8, 8, pd_read_flag=flag)
-        row_data.config_c_num(tup[5][0], tup[5][1], pd_read_flag=flag)
+        row_data.config_c_num(tup[4], tup[4], pd_read_flag=flag)
         # row_data.config_c_posi(None, None, pd_read_flag=False)
         # if temp_temp == 4:
         #     row_data.config_c_posi(None, [514/2], pd_read_flag=False)
@@ -300,13 +229,14 @@ def main_cal(path1, path2, path3):
         row_data.config_trk_z(pd_read_flag=False, respectively=False)
 
         # TB模式
-        # row_data.config_TB_mode('无TB', pd_read_flag=False)
-        row_data.config_TB_mode('右端单TB', pd_read_flag=flag)
+        row_data.config_TB_mode('无TB', pd_read_flag=False)
+        # row_data.config_TB_mode('右端单TB', pd_read_flag=flag)
         # row_data.config_TB_mode(tup[3], pd_read_flag=flag)
         # row_data.config_TB_mode('双端TB', pd_read_flag=False)
 
-        row_data.config_sr_mode(tup[3][0], tup[3][1], pd_read_flag=False)
+        # row_data.config_sr_mode('右发', '左发', pd_read_flag=flag)
         # row_data.config_sr_mode('双端', '双端', pd_read_flag=False)
+        row_data.config_sr_mode('右发', '右发', pd_read_flag=False)
         # row_data.config_sr_mode('右发', '左发', pd_read_flag=False)
         # row_data.config_sr_mode('', '', pd_read_flag=True)
 
@@ -319,22 +249,24 @@ def main_cal(path1, path2, path3):
         #     row_data.config_pop([2,4,5], [], pd_read_flag=False)
 
         row_data.config_cable_para()
-        row_data.config_cable_length(10, 10, pd_read_flag=flag, respectively=True)
+        row_data.config_cable_length(4, 4, pd_read_flag=flag, respectively=True)
         # row_data.config_r_sht(1e-7, 1e-7, pd_read_flag=flag, respectively=True)
         row_data.config_r_sht(1e-7, 1e-7, pd_read_flag=False, respectively=True)
         # row_data.config_power(6, 40, pd_read_flag=flag)
-        row_data.config_power(7, '最大', pd_read_flag=flag)
+        # row_data.config_power(1, '最大', pd_read_flag=flag)
+        row_data.config_power(1, 40, pd_read_flag=flag)
 
         row_data.config_sp_posi()
         row_data.config_train_signal()
         row_data.config_error()
 
-        data['主串区段类型'] = para['主串区段类型'] = tup[0][0]
-        data['被串区段类型'] = para['被串区段类型'] = tup[0][1]
+        # data['主串区段类型'] = para['主串区段类型'] = tup[0][0]
+        # data['被串区段类型'] = para['被串区段类型'] = tup[0][1]
         # row_data.config_digital_EL(n=tup[0], pd_read_flag=False)
-        # row_data.config_digital_EL(n=10, pd_read_flag=False)
+        row_data.config_digital_EL(n=tup[3], pd_read_flag=False)
+        row_data.config_c_isolation(c=tup[5], pd_read_flag=False)
 
-        interval = row_data.config_interval(5, pd_read_flag=False)
+        interval = row_data.config_interval(5, pd_read_flag=flag)
 
         # data['主串分路位置'] = para['主串分路位置'] = tup[0]
 
@@ -385,8 +317,8 @@ def main_cal(path1, path2, path3):
         # 分路计算
 
         # md = PreModel_25Hz_coding(parameter=para)
-        # md = PreModel_ZN_Digital(parameter=para)
-        md = PreModel_ZN_BPLN_Mixed(parameter=para)
+        md = PreModel_ZN_Digital(parameter=para)
+        # md = PreModel_ZN_BPLN_Mixed(parameter=para)
 
         md.add_train()
         # md.add_train_bei()

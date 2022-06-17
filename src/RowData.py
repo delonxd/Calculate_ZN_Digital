@@ -974,6 +974,7 @@ class RowData:
         else:
             c_tmp = c * 1e-6
 
+            data['隔直电容(μf)'] = c
             # 隔直电容
             para['c_isolation'] = ImpedanceMultiFreq()
             para['c_isolation'].rlc_s = {

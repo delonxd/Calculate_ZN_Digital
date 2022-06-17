@@ -109,11 +109,15 @@ def main_cal(path1, path2, path3):
     clist1 = clist2 = clist3 = clist4 = clist5 = clist6 = [[]]
 
     clist1 = [1700, 2000, 2300, 2600]
-    clist2 = [1700, 2000, 2300, 2600]
-    clist3 = list(range(100, 1201, 50))
-    # clist4 = list(range(5, 16, 1))
-    clist4 = [10]
-    clist5 = list(range(0, 16, 1))
+    # clist2 = [1700, 2000, 2300, 2600]
+    clist2 = [1700]
+    clist3 = list(range(500, 1201, 50))
+    # clist3 = [1050]
+    clist4 = list(range(5, 16, 1))
+    # clist4 = [10]
+    # clist5 = list(range(0, 16, 1))
+    # clist5 = [8, 10, 12, 14]
+    clist5 = [True, False]
     # clist6 = list(range(1, 11, 1))
 
     # clist1 = [2600]     # 主串频率
@@ -121,7 +125,9 @@ def main_cal(path1, path2, path3):
     # clist3 = [650]      # 区段长度
     # clist4 = [10]       # 扼流变比
     # clist5 = [12]
-    clist6 = list(range(0, 101, 10))      # 隔直电容
+    # clist6 = list(range(0, 101, 10))      # 隔直电容
+    # clist6 = [0, 0.2, 0.4, 0.6, 0.8, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1e6]     # 隔直电容
+    clist6 = [0.6]     # 隔直电容
 
     clist = list(itertools.product(
         clist1, clist2, clist3, clist4, clist5, clist6))
@@ -194,7 +200,15 @@ def main_cal(path1, path2, path3):
         # row_data.config_freq(cv1, cv2, pd_read_flag=flag)
         # row_data.config_c_num('auto', 'auto', pd_read_flag=flag)
         # row_data.config_c_num(8, 8, pd_read_flag=flag)
-        row_data.config_c_num(tup[4], tup[4], pd_read_flag=flag)
+
+        flag0 = tup[4]
+        c_num_tmp = 0
+        if flag0:
+            c_num_tmp = (tup[2] // 100)
+        else:
+            c_num_tmp = (tup[2] // 100) + 1
+
+        row_data.config_c_num(c_num_tmp, c_num_tmp, pd_read_flag=flag)
         # row_data.config_c_posi(None, None, pd_read_flag=False)
         # if temp_temp == 4:
         #     row_data.config_c_posi(None, [514/2], pd_read_flag=False)
@@ -318,6 +332,7 @@ def main_cal(path1, path2, path3):
 
         # md = PreModel_25Hz_coding(parameter=para)
         md = PreModel_ZN_Digital(parameter=para)
+        # md = PreModel_ZN_Digital_Double_Sending(parameter=para)
         # md = PreModel_ZN_BPLN_Mixed(parameter=para)
 
         md.add_train()

@@ -468,13 +468,13 @@ class ZPW2000A_ZN_Digital(TCSR):
                                           para['Cable_L'],
                                           para['Cable_C']))
 
+        self.add_child('4隔直电容', TPortZSeries(self, '4隔直电容',
+                                             para['c_isolation']))
+
         self.add_child('5扼流', TcsrEL_Digital_1129(self, '5扼流',
                                                   para['EL_0316_zs'],
                                                   para['EL_0316_zm'],
                                                   para['EL_0316_n']))
-
-        self.add_child('4隔直电容', TPortZSeries(self, '4隔直电容',
-                                             para['c_isolation']))
 
         # # self.add_child('4TAD', TcsrTAD(self, '4TAD',
         # #                                para['TAD_z1_发送端_区间'],

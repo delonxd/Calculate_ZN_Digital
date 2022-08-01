@@ -1336,11 +1336,12 @@ class PreModel_ZN_Digital(PreModel):
         send_level = para['send_level']
         m_frqs = generate_frqs(Freq(para['freq_主']), 1)
 
+        m_typs = self.sr_mod_2_m_typs(para['sr_mod_主'])
         sg3 = SectionGroup(name_base='地面', posi=para['offset_zhu'], m_num=1,
                            m_frqs=m_frqs,
                            m_lens=[para['主串区段长度']],
                            j_lens=[0]*2,
-                           m_typs=['2000A_ZN_Digital'],
+                           m_typs=[m_typs],
                            c_nums=[para['主串电容数']],
                            sr_mods=[para['sr_mod_主']],
                            send_lvs=[send_level],
@@ -1352,6 +1353,9 @@ class PreModel_ZN_Digital(PreModel):
             sg3['区段1']['左调谐单元'].set_power_voltage(flg)
         elif para['sr_mod_主'] == '右发':
             sg3['区段1']['右调谐单元'].set_power_voltage(flg)
+        elif para['sr_mod_主'] == '双端':
+            sg3['区段1']['左调谐单元'].set_power_voltage(flg)
+            sg3['区段1']['右调谐单元'].set_power_voltage(flg)
         else:
             raise KeyboardInterrupt('发送方向错误')
 
@@ -1359,11 +1363,12 @@ class PreModel_ZN_Digital(PreModel):
         # sg3['区段1']['右调谐单元'].set_power_voltage(flg)
 
         m_frqs = generate_frqs(Freq(para['freq_被']), 1)
+        m_typs = self.sr_mod_2_m_typs(para['sr_mod_被'])
         sg4 = SectionGroup(name_base='地面', posi=para['offset_bei'], m_num=1,
                            m_frqs=m_frqs,
                            m_lens=[para['被串区段长度']],
                            j_lens=[0]*2,
-                           m_typs=['2000A_ZN_Digital'],
+                           m_typs=[m_typs],
                            c_nums=[para['被串电容数']],
                            sr_mods=[para['sr_mod_被']],
                            send_lvs=[send_level],
@@ -1393,6 +1398,13 @@ class PreModel_ZN_Digital(PreModel):
 
         self.lg.special_point = para['special_point']
         self.lg.refresh()
+
+    @staticmethod
+    def sr_mod_2_m_typs(sr_mod):
+        if sr_mod == '双端':
+            return '2000A_ZN_Digital_Double_Sending'
+        elif sr_mod == '左发' or sr_mod == '右发':
+            return '2000A_ZN_Digital'
 
 
 class PreModel_ZN_Digital_Double_Sending(PreModel):
@@ -1470,7 +1482,6 @@ class PreModel_ZN_Digital_Double_Sending(PreModel):
 
         self.lg.special_point = para['special_point']
         self.lg.refresh()
-
 
 
 class PreModel_ZN_BPLN_Mixed(PreModel):

@@ -111,7 +111,8 @@ def main_cal(path1, path2, path3):
     clist1 = [1700, 2000, 2300, 2600]
     # clist2 = [1700, 2000, 2300, 2600]
     clist2 = [1700]
-    clist3 = list(range(500, 1201, 50))
+    # clist3 = list(range(50, 1201, 50))
+    clist3 = list(range(500, 1051, 50))
     # clist3 = [1050]
     clist4 = list(range(5, 16, 1))
     # clist4 = [10]
@@ -203,10 +204,15 @@ def main_cal(path1, path2, path3):
 
         flag0 = tup[4]
         c_num_tmp = 0
+        # if flag0:
+        #     c_num_tmp = -(-tup[2] // 100)
+        # else:
+        #     c_num_tmp = -(-tup[2] // 100) - 1
+
         if flag0:
-            c_num_tmp = (tup[2] // 100)
+            c_num_tmp = -(-tup[2] // 200) * 2
         else:
-            c_num_tmp = (tup[2] // 100) + 1
+            c_num_tmp = -(-tup[2] // 200) * 2 - 2
 
         row_data.config_c_num(c_num_tmp, c_num_tmp, pd_read_flag=flag)
         # row_data.config_c_posi(None, None, pd_read_flag=False)
@@ -249,8 +255,8 @@ def main_cal(path1, path2, path3):
         # row_data.config_TB_mode('双端TB', pd_read_flag=False)
 
         # row_data.config_sr_mode('右发', '左发', pd_read_flag=flag)
-        # row_data.config_sr_mode('双端', '双端', pd_read_flag=False)
-        row_data.config_sr_mode('右发', '右发', pd_read_flag=False)
+        row_data.config_sr_mode('双端', '双端', pd_read_flag=False)
+        # row_data.config_sr_mode('右发', '右发', pd_read_flag=False)
         # row_data.config_sr_mode('右发', '左发', pd_read_flag=False)
         # row_data.config_sr_mode('', '', pd_read_flag=True)
 

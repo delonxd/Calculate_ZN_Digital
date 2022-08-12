@@ -1329,19 +1329,18 @@ class PreModel_ZN_Digital(PreModel):
         self.train2 = Train(name_base='列车2', posi=0, parameter=parameter)
 
         # todo: 分路电阻
-        # self.train2['分路电阻1'].z = 1000000
-        # self.train1['分路电阻1'].z = 1000000
+        self.train2['分路电阻1'].z = para['主串分路电阻']
+        self.train1['分路电阻1'].z = para['被串分路电阻']
 
         # 轨道电路初始化
         send_level = para['send_level']
         m_frqs = generate_frqs(Freq(para['freq_主']), 1)
 
-        m_typs = self.sr_mod_2_m_typs(para['sr_mod_主'])
         sg3 = SectionGroup(name_base='地面', posi=para['offset_zhu'], m_num=1,
                            m_frqs=m_frqs,
                            m_lens=[para['主串区段长度']],
                            j_lens=[0]*2,
-                           m_typs=[m_typs],
+                           m_typs=[para['sec_type_zhu']],
                            c_nums=[para['主串电容数']],
                            sr_mods=[para['sr_mod_主']],
                            send_lvs=[send_level],
@@ -1363,22 +1362,21 @@ class PreModel_ZN_Digital(PreModel):
         # sg3['区段1']['右调谐单元'].set_power_voltage(flg)
 
         m_frqs = generate_frqs(Freq(para['freq_被']), 1)
-        m_typs = self.sr_mod_2_m_typs(para['sr_mod_被'])
         sg4 = SectionGroup(name_base='地面', posi=para['offset_bei'], m_num=1,
                            m_frqs=m_frqs,
                            m_lens=[para['被串区段长度']],
                            j_lens=[0]*2,
-                           m_typs=[m_typs],
+                           m_typs=[para['sec_type_bei']],
                            c_nums=[para['被串电容数']],
                            sr_mods=[para['sr_mod_被']],
                            send_lvs=[send_level],
                            parameter=parameter)
 
-        partent = sg3['区段1']
-        ele = JumperWire(parent_ins=partent,
+        parent = sg3['区段1']
+        ele = JumperWire(parent_ins=parent,
                          name_base='跳线',
                          posi=para['主串区段长度'])
-        partent.add_child('跳线', ele)
+        parent.add_child('跳线', ele)
         ele.set_posi_abs(0)
         self.jumper = ele
 
@@ -1399,12 +1397,12 @@ class PreModel_ZN_Digital(PreModel):
         self.lg.special_point = para['special_point']
         self.lg.refresh()
 
-    @staticmethod
-    def sr_mod_2_m_typs(sr_mod):
-        if sr_mod == '双端':
-            return '2000A_ZN_Digital_Double_Sending'
-        elif sr_mod == '左发' or sr_mod == '右发':
-            return '2000A_ZN_Digital'
+    # @staticmethod
+    # def sr_mod_2_m_typs(sr_mod):
+    #     if sr_mod == '双端':
+    #         return '2000A_ZN_Digital_Double_Sending'
+    #     elif sr_mod == '左发' or sr_mod == '右发':
+    #         return '2000A_ZN_Digital'
 
 
 class PreModel_ZN_Digital_Double_Sending(PreModel):
@@ -1458,11 +1456,11 @@ class PreModel_ZN_Digital_Double_Sending(PreModel):
                            send_lvs=[send_level],
                            parameter=parameter)
 
-        partent = sg3['区段1']
-        ele = JumperWire(parent_ins=partent,
+        parent = sg3['区段1']
+        ele = JumperWire(parent_ins=parent,
                          name_base='跳线',
                          posi=para['主串区段长度'])
-        partent.add_child('跳线', ele)
+        parent.add_child('跳线', ele)
         ele.set_posi_abs(0)
         self.jumper = ele
 
@@ -1532,11 +1530,11 @@ class PreModel_ZN_BPLN_Mixed(PreModel):
                            send_lvs=[send_level],
                            parameter=parameter)
 
-        partent = sg3['区段1']
-        ele = JumperWire(parent_ins=partent,
+        parent = sg3['区段1']
+        ele = JumperWire(parent_ins=parent,
                          name_base='跳线',
                          posi=para['主串区段长度'])
-        partent.add_child('跳线', ele)
+        parent.add_child('跳线', ele)
         ele.set_posi_abs(0)
         self.jumper = ele
 

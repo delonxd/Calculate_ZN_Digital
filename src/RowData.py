@@ -982,3 +982,26 @@ class RowData:
                 2000: [None, None, c_tmp],
                 2300: [None, None, c_tmp],
                 2600: [None, None, c_tmp]}
+
+    #################################################################################
+
+    # 配置站内数字化送受模式
+    def config_sending_type(self, type_zhu, type_bei, pd_read_flag=False):
+        df_input, para, data = self.read_parameters()
+
+        dict0 = {
+            '一送一受': '2000A_ZN_Digital',
+            '两送一受': '2000A_ZN_Digital_Double_Sending',
+        }
+
+        data['主串送受类型'] = type_zhu
+        data['被串送受类型'] = type_bei
+
+        if type_zhu == type_bei:
+            data['送受类型'] = type_zhu
+
+            if data['送受类型'] not in dict0.keys():
+                raise KeyboardInterrupt('送受类型错误')
+
+        para['sec_type_zhu'] = dict0.get(type_zhu)
+        para['sec_type_bei'] = dict0.get(type_bei)

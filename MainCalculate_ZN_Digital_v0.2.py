@@ -95,12 +95,14 @@ def main_cal(path1, path2, path3):
 
     clist0 = clist1 = clist2 = clist3 = clist4 = clist5 = [[]]
 
-    clist0 = ['一送一受', '两送一受']
-    # clist0 = ['两送一受']
+    # clist0 = ['一送一受', '两送一受']
+    clist0 = ['两送一受']
     clist1 = [1700, 2000, 2300, 2600]
-    clist2 = list(range(300, 1051, 50))
-    # clist2 = [300, 350, 400]
+    # clist2 = list(range(300, 1051, 50))
+    clist2 = [20, 25, 30, 40, 46, 50, 55, 60, 70, 80]
     clist3 = [1, 2]
+    clist4 = list(range(5, 16, 1))
+    clist5 = list(range(1, 11, 1))
     # clist6 = list(range(1, 11, 1))
 
     # clist1 = [2600]     # 主串频率
@@ -112,7 +114,7 @@ def main_cal(path1, path2, path3):
     # clist6 = [0, 0.2, 0.4, 0.6, 0.8, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1e6]     # 隔直电容
 
     clist = list(itertools.product(
-        clist0, clist1, clist2, clist3, clist4, clist5,))
+        clist0, clist1, clist2, clist3, clist4, clist5))
 
     print('总行数：%s' % str(len(clist)))
 
@@ -121,7 +123,7 @@ def main_cal(path1, path2, path3):
     columns_max = 0
     counter = 1
 
-    cv1, cv2, cv3, cv4, cv5, cv6 = [0] * 6
+    # cv1, cv2, cv3, cv4, cv5, cv6 = [0] * 6
 
     # pd_read_flag = True
     pd_read_flag = False
@@ -134,7 +136,7 @@ def main_cal(path1, path2, path3):
         #################################################################################
 
         # # 封装程序显示
-        # print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+        print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
         # if getattr(sys, 'frozen', False):
         #     print(df_input[temp_temp:(temp_temp + 1)])
         # print(temp_temp)
@@ -171,7 +173,7 @@ def main_cal(path1, path2, path3):
 
         # row_data.config_sec_length(cv2.lens_zhu[0], cv2.lens_bei[cv2.index_bei], pd_read_flag=flag)
         # row_data.config_sec_length(tup[4][0], tup[4][1], pd_read_flag=flag)
-        row_data.config_sec_length(tup[2], tup[2], pd_read_flag=flag)
+        row_data.config_sec_length(1050, 1050, pd_read_flag=flag)
         row_data.config_offset(0, pd_read_flag=flag)
         # row_data.config_offset(300, pd_read_flag=False)
         # row_data.config_offset(0, pd_read_flag=True)
@@ -185,20 +187,24 @@ def main_cal(path1, path2, path3):
 
         row_data.config_sending_type(tup[0], tup[0], pd_read_flag=flag)
 
+        len_zhu = data['主串区段长度(m)']
+
         if tup[3] == 1:
             if data['送受类型'] == '一送一受':
-                c_num_tmp = -(-tup[2] // 100)
+                c_num_tmp = -(-len_zhu // 100)
             else:
-                c_num_tmp = -(-tup[2] // 200) * 2
+                c_num_tmp = -(-len_zhu // 200) * 2
 
         elif tup[3] == 2:
             if data['送受类型'] == '一送一受':
-                c_num_tmp = -(-tup[2] // 100) - 1
+                c_num_tmp = -(-len_zhu // 100) - 1
             else:
-                c_num_tmp = -(-tup[2] // 200) * 2 - 2
+                c_num_tmp = -(-len_zhu // 200) * 2 - 2
 
         else:
             raise KeyboardInterrupt('电容数错误')
+
+        print(c_num_tmp)
 
         row_data.config_c_num(c_num_tmp, c_num_tmp, pd_read_flag=flag)
         # row_data.config_c_posi(None, None, pd_read_flag=False)
@@ -206,7 +212,8 @@ def main_cal(path1, path2, path3):
         #     row_data.config_c_posi(None, [514/2], pd_read_flag=False)
         # row_data.config_c2TB(False)
 
-        row_data.config_c_value(25, 25, pd_read_flag=flag)
+        # row_data.config_c_value(25, 25, pd_read_flag=flag)
+        row_data.config_c_value(tup[2], tup[2], pd_read_flag=flag)
         # row_data.config_c_value(c_value_dict[tup[4]], c_value_dict[tup[5]], pd_read_flag=flag)
 
         # row_data.config_c_inhibitor(pd_read_flag=flag)
@@ -259,7 +266,8 @@ def main_cal(path1, path2, path3):
         #     row_data.config_pop([2,4,5], [], pd_read_flag=False)
 
         row_data.config_cable_para()
-        row_data.config_cable_length(4, 4, pd_read_flag=flag, respectively=True)
+        # row_data.config_cable_length(4, 4, pd_read_flag=flag, respectively=True)
+        row_data.config_cable_length(tup[5], tup[5], pd_read_flag=flag, respectively=True)
         # row_data.config_r_sht(1e-7, 1e-7, pd_read_flag=flag, respectively=True)
         row_data.config_r_sht(1e-7, 1e-7, pd_read_flag=False, respectively=True)
         # row_data.config_power(6, 40, pd_read_flag=flag)
@@ -272,8 +280,8 @@ def main_cal(path1, path2, path3):
 
         # data['主串区段类型'] = para['主串区段类型'] = tup[0][0]
         # data['被串区段类型'] = para['被串区段类型'] = tup[0][1]
-        # row_data.config_digital_EL(n=tup[0], pd_read_flag=False)
-        row_data.config_digital_EL(n=10, pd_read_flag=False)
+        row_data.config_digital_EL(n=tup[4], pd_read_flag=False)
+        # row_data.config_digital_EL(n=10, pd_read_flag=False)
         row_data.config_c_isolation(c=0.6, pd_read_flag=False)
 
         interval = row_data.config_interval(1, pd_read_flag=flag)

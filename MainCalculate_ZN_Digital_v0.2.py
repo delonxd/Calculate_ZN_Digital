@@ -284,7 +284,7 @@ def main_cal(path1, path2, path3):
         # row_data.config_digital_EL(n=10, pd_read_flag=False)
         row_data.config_c_isolation(c=0.6, pd_read_flag=False)
 
-        interval = row_data.config_interval(1, pd_read_flag=flag)
+        interval = row_data.config_interval(5, pd_read_flag=flag)
 
         # data['主串分路位置'] = para['主串分路位置'] = tup[0]
 
@@ -339,7 +339,8 @@ def main_cal(path1, path2, path3):
         for pos in posi_list:
             para['分路位置'] = pos
 
-            posi_bei = -1
+            # posi_bei = -1
+            posi_bei = pos
             md.train1.posi_rlt = posi_bei
             md.train1.set_posi_abs(0)
 
@@ -410,8 +411,8 @@ def main_cal(path1, path2, path3):
 
         excel_data.append(data_row)
 
-        # if counter == 10:
-        #     break
+        if counter == 10:
+            break
 
         counter += 1
 
@@ -454,11 +455,11 @@ def main_cal(path1, path2, path3):
     write_to_excel(df=df_data, writer=writer, sheet_name="数据输出", hfmt=header_format)
 
     names = [
-        # "被串钢轨电流",
-        # "被串分路电流",
-        # "主串钢轨电流",
+        "被串钢轨电流",
+        "被串分路电流",
+        "主串钢轨电流",
         "主串分路电流",
-        "被串轨入电压",
+        # "被串轨入电压",
     ]
 
     # data2excel.write2excel(sheet_names=names, header=None, writer1=writer)

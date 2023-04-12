@@ -98,11 +98,12 @@ def main_cal(path1, path2, path3):
     # clist0 = ['一送一受', '两送一受']
     clist0 = ['两送一受']
     clist1 = [1700, 2000, 2300, 2600]
-    # clist2 = list(range(300, 1051, 50))
-    clist2 = [20, 25, 30, 40, 46, 50, 55, 60, 70, 80]
+    clist2 = list(range(500, 1051, 50))
+    # clist2 = [20, 25, 30, 40, 46, 50, 55, 60, 70, 80]
     clist3 = [1, 2]
     clist4 = list(range(5, 16, 1))
-    clist5 = list(range(1, 11, 1))
+    # clist5 = list(range(1, 11, 1))
+    clist5 = [4]
     # clist6 = list(range(1, 11, 1))
 
     # clist1 = [2600]     # 主串频率
@@ -173,14 +174,15 @@ def main_cal(path1, path2, path3):
 
         # row_data.config_sec_length(cv2.lens_zhu[0], cv2.lens_bei[cv2.index_bei], pd_read_flag=flag)
         # row_data.config_sec_length(tup[4][0], tup[4][1], pd_read_flag=flag)
-        row_data.config_sec_length(1050, 1050, pd_read_flag=flag)
+        # row_data.config_sec_length(1050, 1050, pd_read_flag=flag)
+        row_data.config_sec_length(tup[2], tup[2], pd_read_flag=flag)
         row_data.config_offset(0, pd_read_flag=flag)
         # row_data.config_offset(300, pd_read_flag=False)
         # row_data.config_offset(0, pd_read_flag=True)
 
         row_data.config_mutual_coeff(21, pd_read_flag=flag)
         # row_data.config_freq(cv1[0], cv1[1], pd_read_flag=flag)
-        row_data.config_freq(tup[1], 1700, pd_read_flag=flag)
+        row_data.config_freq(tup[1], tup[1], pd_read_flag=flag)
         # row_data.config_freq(cv1, cv2, pd_read_flag=flag)
         # row_data.config_c_num('auto', 'auto', pd_read_flag=flag)
         # row_data.config_c_num(8, 8, pd_read_flag=flag)
@@ -204,7 +206,7 @@ def main_cal(path1, path2, path3):
         else:
             raise KeyboardInterrupt('电容数错误')
 
-        print(c_num_tmp)
+        print('电容数:', c_num_tmp)
 
         row_data.config_c_num(c_num_tmp, c_num_tmp, pd_read_flag=flag)
         # row_data.config_c_posi(None, None, pd_read_flag=False)
@@ -212,8 +214,8 @@ def main_cal(path1, path2, path3):
         #     row_data.config_c_posi(None, [514/2], pd_read_flag=False)
         # row_data.config_c2TB(False)
 
-        # row_data.config_c_value(25, 25, pd_read_flag=flag)
-        row_data.config_c_value(tup[2], tup[2], pd_read_flag=flag)
+        row_data.config_c_value(25, 25, pd_read_flag=flag)
+        # row_data.config_c_value(tup[2], tup[2], pd_read_flag=flag)
         # row_data.config_c_value(c_value_dict[tup[4]], c_value_dict[tup[5]], pd_read_flag=flag)
 
         # row_data.config_c_inhibitor(pd_read_flag=flag)
@@ -284,7 +286,7 @@ def main_cal(path1, path2, path3):
         # row_data.config_digital_EL(n=10, pd_read_flag=False)
         row_data.config_c_isolation(c=0.6, pd_read_flag=False)
 
-        interval = row_data.config_interval(5, pd_read_flag=flag)
+        interval = row_data.config_interval(1, pd_read_flag=flag)
 
         # data['主串分路位置'] = para['主串分路位置'] = tup[0]
 
@@ -332,7 +334,8 @@ def main_cal(path1, path2, path3):
         flag_r = para['被串区段长度'] + para['offset_bei']
 
         posi_list = np.arange(flag_l - 1, flag_r + 0.0001, +interval)
-        print(len(posi_list))
+        # posi_list = [-1, 0]
+        # print(len(posi_list))
 
         len_posi = max(len(posi_list), len_posi)
 
@@ -411,8 +414,8 @@ def main_cal(path1, path2, path3):
 
         excel_data.append(data_row)
 
-        if counter == 10:
-            break
+        # if counter == 10:
+        #     break
 
         counter += 1
 

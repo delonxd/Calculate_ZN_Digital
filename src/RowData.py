@@ -862,6 +862,125 @@ class RowData:
                 2300: n,
                 2600: n}
 
+            if 10 <= n <= 15:
+                para['EL_0316_发送_zs'] = ImpedanceMultiFreq()
+                para['EL_0316_发送_zs'].rlc_s = {
+                    1700: [1.74, 954.3e-6, None],
+                    2000: [1.84, 949.0e-6, None],
+                    2300: [1.94, 944.8e-6, None],
+                    2600: [2.04, 941.4e-6, None]}
+
+                para['EL_0316_发送_zm'] = ImpedanceMultiFreq()
+                para['EL_0316_发送_zm'].rlc_s = {
+                    1700: [30.46, 37.02e-3, None],
+                    2000: [44.32, 37.47e-3, None],
+                    2300: [58.35, 38.02e-3, None],
+                    2600: [75.18, 38.72e-3, None]}
+
+                para['EL_0316_接收_zs'] = ImpedanceMultiFreq()
+                para['EL_0316_接收_zs'].rlc_s = {
+                    1700: [1.84, 984.99e-6, None],
+                    2000: [1.94, 949.05e-6, None],
+                    2300: [2.04, 974.41e-6, None],
+                    2600: [2.15, 970.71e-6, None]}
+
+                para['EL_0316_接收_zm'] = ImpedanceMultiFreq()
+                para['EL_0316_接收_zm'].rlc_s = {
+                    1700: [26.75, 36.46e-3, None],
+                    2000: [36.43, 36.99e-3, None],
+                    2300: [48.09, 37.65e-3, None],
+                    2600: [62.37, 38.47e-3, None]}
+
+                tmp_n = n * n / 100
+                para['EL_0316_发送_zs'] = para['EL_0316_发送_zs'] * tmp_n
+                para['EL_0316_发送_zm'] = para['EL_0316_发送_zm'] * tmp_n
+                para['EL_0316_接收_zs'] = para['EL_0316_接收_zs'] * tmp_n
+                para['EL_0316_接收_zm'] = para['EL_0316_接收_zm'] * tmp_n
+
+            elif 7 <= n < 10:
+                para['EL_0316_发送_zs'] = ImpedanceMultiFreq()
+                para['EL_0316_发送_zs'].rlc_s = {
+                    1700: [1.347, 502.12e-6, None],
+                    2000: [1.395, 499.86e-6, None],
+                    2300: [1.444, 498.11e-6, None],
+                    2600: [1.494, 496.73e-6, None]}
+
+                para['EL_0316_发送_zm'] = ImpedanceMultiFreq()
+                para['EL_0316_发送_zm'].rlc_s = {
+                    1700: [15.96, 17.58e-3, None],
+                    2000: [21.41, 17.82e-3, None],
+                    2300: [27.69, 18.12e-3, None],
+                    2600: [35.38, 18.50e-3, None]}
+
+                para['EL_0316_接收_zs'] = ImpedanceMultiFreq()
+                para['EL_0316_接收_zs'].rlc_s = {
+                    1700: [1.49, 583.91e-6, None],
+                    2000: [1.56, 580.45e-6, None],
+                    2300: [1.62, 577.78e-6, None],
+                    2600: [1.69, 575.65e-6, None]}
+
+                para['EL_0316_接收_zm'] = ImpedanceMultiFreq()
+                para['EL_0316_接收_zm'].rlc_s = {
+                    1700: [13.45, 17.60e-3, None],
+                    2000: [18.00, 17.86e-3, None],
+                    2300: [23.41, 18.19e-3, None],
+                    2600: [30.07, 18.61e-3, None]}
+
+                tmp_n = n * n / 49
+                para['EL_0316_发送_zs'] = para['EL_0316_发送_zs'] * tmp_n
+                para['EL_0316_发送_zm'] = para['EL_0316_发送_zm'] * tmp_n
+                para['EL_0316_接收_zs'] = para['EL_0316_接收_zs'] * tmp_n
+                para['EL_0316_接收_zm'] = para['EL_0316_接收_zm'] * tmp_n
+
+            elif 5 <= n < 7:
+                para['EL_0316_发送_zs'] = ImpedanceMultiFreq()
+                para['EL_0316_发送_zs'].rlc_s = {
+                    1700: [1.288, 381.28e-6, None],
+                    2000: [1.332, 379.16e-6, None],
+                    2300: [1.378, 377.52e-6, None],
+                    2600: [1.425, 376.19e-6, None]}
+
+                para['EL_0316_发送_zm'] = ImpedanceMultiFreq()
+                para['EL_0316_发送_zm'].rlc_s = {
+                    1700: [8.65, 9.067e-3, None],
+                    2000: [11.49, 9.201e-3, None],
+                    2300: [14.86, 9.367e-3, None],
+                    2600: [18.97, 9.574e-3, None]}
+
+                para['EL_0316_接收_zs'] = ImpedanceMultiFreq()
+                para['EL_0316_接收_zs'].rlc_s = {
+                    1700: [1.66, 632.48e-6, None],
+                    2000: [1.75, 626.91e-6, None],
+                    2300: [1.84, 622.59e-6, None],
+                    2600: [1.93, 619.10e-6, None]}
+
+                para['EL_0316_接收_zm'] = ImpedanceMultiFreq()
+                para['EL_0316_接收_zm'].rlc_s = {
+                    1700: [7.76, 9.284e-3, None],
+                    2000: [10.20, 9.425e-3, None],
+                    2300: [13.11, 9.601e-3, None],
+                    2600: [16.65, 9.822e-3, None]}
+
+                tmp_n = n * n / 25
+                # para['EL_0316_发送_zs'] = para['EL_0316_发送_zs'] * tmp_n
+                para['EL_0316_发送_zm'] = para['EL_0316_发送_zm'] * tmp_n
+                # para['EL_0316_接收_zs'] = para['EL_0316_接收_zs'] * tmp_n
+                para['EL_0316_接收_zm'] = para['EL_0316_接收_zm'] * tmp_n
+
+            else:
+                raise KeyboardInterrupt('参数错误：扼流变比-->n')
+
+            freq = data['主串频率(Hz)']
+            data['发送扼流_Rs(Ω)'] = round(para['EL_0316_发送_zs'][freq].rlc_s[0], 3)
+            data['发送扼流_Ls(μH)'] = round(para['EL_0316_发送_zs'][freq].rlc_s[1] * 1e6, 3)
+            data['发送扼流_Rm(Ω)'] = round(para['EL_0316_发送_zm'][freq].rlc_s[0], 3)
+            data['发送扼流_Lm(mH)'] = round(para['EL_0316_发送_zm'][freq].rlc_s[1] * 1e3, 3)
+
+            data['接收扼流_Rs(Ω)'] = round(para['EL_0316_接收_zs'][freq].rlc_s[0], 3)
+            data['接收扼流_Ls(μH)'] = round(para['EL_0316_接收_zs'][freq].rlc_s[1] * 1e6, 3)
+            data['接收扼流_Rm(Ω)'] = round(para['EL_0316_接收_zm'][freq].rlc_s[0], 3)
+            data['接收扼流_Lm(mH)'] = round(para['EL_0316_接收_zm'][freq].rlc_s[1] * 1e3, 3)
+
             # tmp_n = n * n / 100
 
             # para['EL_1129_z1'] = ImpedanceMultiFreq()

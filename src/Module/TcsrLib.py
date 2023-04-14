@@ -478,7 +478,7 @@ class ZPW2000A_ZN_Digital(TCSR):
 
         self.add_child('5扼流', TcsrEL_Digital_1129(self, '5扼流',
                                                   para['EL_0316_发送_zs'],
-                                                  para['EL_0316_发送_zs'],
+                                                  para['EL_0316_发送_zm'],
                                                   para['EL_0316_n']))
 
         # # self.add_child('4TAD', TcsrTAD(self, '4TAD',
